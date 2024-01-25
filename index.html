@@ -17,23 +17,40 @@
         <h1><a class="midnight-title" href="index.html">Midnight</a></h1>
     </div>
 
-    <ul class="navbar navbar-custom">
-      <li class="navbar-brand">
-        <a class="nav-link active" href="aretes.html">Aretes</a>
-      </li>
-      <li class="navbar-brand">
-        <a class="nav-link" href="#">Earcuffs</a>
-      </li>
-      <li class="navbar-brand">
-        <a class="nav-link" href="#">Anillos</a>
-      </li>
-      <li class="navbar-brand">
-        <a class="nav-link" href="#">Collares</a>
-      </li>
-      <li class="navbar-brand">
-        <a class="nav-link" href="#">Pulseras</a>
-      </li>
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #000000;">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav nav-justified navbar-custom">
+              <li class="nav-item navbar-brand">
+                <a class="nav-link active" href="aretes.html">Aretes</a>
+              </li>
+          </ul>
+          <ul class="nav nav-justified navbar-custom">
+              <li class="nav-item navbar-brand">
+                <a class="nav-link" href="#">Earcuffs</a>
+              </li>
+          </ul>
+          <ul class="nav nav-justified navbar-custom">
+              <li class="nav-item navbar-brand">
+                <a class="nav-link" href="#">Anillos</a>
+              </li>
+          </ul>
+          <ul class="nav nav-justified navbar-custom">
+              <li class="nav-item navbar-brand">
+                <a class="nav-link" href="#">Collares</a>
+              </li>
+          </ul>
+          <ul class="nav nav-justified navbar-custom">
+              <li class="nav-item navbar-brand">
+                <a class="nav-link" href="#">Pulseras</a>
+              </li>
+          </ul>
+        </div>
+      </div>
+  </nav>
 
     <div class="container text-center">
       <div class="row">
@@ -66,6 +83,195 @@
           loading="lazy" 
           alt="Example image" class="lazyload img-fluid lazy"
           width="1080" height="1080">
+        </div>
+      </div>
+    </div>
+
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-sm-8" id='product-component-1705991910589'>
+          <script type="text/javascript">
+          /*<![CDATA[*/
+          (function () {
+            var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+            if (window.ShopifyBuy) {
+              if (window.ShopifyBuy.UI) {
+                ShopifyBuyInit();
+              } else {
+                loadScript();
+              }
+            } else {
+              loadScript();
+            }
+            function loadScript() {
+              var script = document.createElement('script');
+              script.async = true;
+              script.src = scriptURL;
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+              script.onload = ShopifyBuyInit;
+            }
+            function ShopifyBuyInit() {
+              var client = ShopifyBuy.buildClient({
+                domain: '2f9ed3-3.myshopify.com',
+                storefrontAccessToken: '564e97734af28b07935b62227448d359',
+              });
+              ShopifyBuy.UI.onReady(client).then(function (ui) {
+                ui.createComponent('product', {
+                  id: 12345,
+                  options: {
+                    "product": {
+                      "styles": {
+                        "product": {
+                          "@media (min-width: 601px)": {
+                            "max-width": "100%",
+                            "margin-left": "0",
+                            "margin-bottom": "50px"
+                          },
+                          "text-align": "left"
+                        },
+                        "title": {
+                          "font-size": "26px",
+                          "color": "#000000"
+                        },
+                        "button": {
+                          ":hover": {
+                            "background-color": "#000000"
+                          },
+                          "background-color": "#000000",
+                          ":focus": {
+                            "background-color": "#000000"
+                          },
+                          "border-radius": "19px",
+                          "padding-left": "38px",
+                          "padding-right": "38px"
+                        },
+                        "price": {
+                          "font-size": "18px"
+                        },
+                        "compareAt": {
+                          "font-size": "15.299999999999999px"
+                        },
+                        "unitPrice": {
+                          "font-size": "15.299999999999999px"
+                        }
+                      },
+                      "layout": "horizontal",
+                      "contents": {
+                        "img": false,
+                        "imgWithCarousel": true,
+                        "button": false,
+                        "buttonWithQuantity": true,
+                        "description": true
+                      },
+                      "width": "100%",
+                      "text": {
+                        "button": "Add to cart"
+                      }
+                    },
+                    "productSet": {
+                      "styles": {
+                        "products": {
+                          "@media (min-width: 601px)": {
+                            "margin-left": "-20px"
+                          }
+                        }
+                      }
+                    },
+                    "modalProduct": {
+                      "contents": {
+                        "img": false,
+                        "imgWithCarousel": true,
+                        "button": false,
+                        "buttonWithQuantity": true
+                      },
+                      "styles": {
+                        "product": {
+                          "@media (min-width: 601px)": {
+                            "max-width": "100%",
+                            "margin-left": "0px",
+                            "margin-bottom": "0px"
+                          }
+                        },
+                        "button": {
+                          ":hover": {
+                            "background-color": "#000000"
+                          },
+                          "background-color": "#000000",
+                          ":focus": {
+                            "background-color": "#000000"
+                          },
+                          "border-radius": "19px",
+                          "padding-left": "38px",
+                          "padding-right": "38px"
+                        },
+                        "title": {
+                          "font-family": "Helvetica Neue, sans-serif",
+                          "font-weight": "bold",
+                          "font-size": "26px",
+                          "color": "#4c4c4c"
+                        },
+                        "price": {
+                          "font-family": "Helvetica Neue, sans-serif",
+                          "font-weight": "normal",
+                          "font-size": "18px",
+                          "color": "#4c4c4c"
+                        },
+                        "compareAt": {
+                          "font-family": "Helvetica Neue, sans-serif",
+                          "font-weight": "normal",
+                          "font-size": "15.299999999999999px",
+                          "color": "#4c4c4c"
+                        },
+                        "unitPrice": {
+                          "font-family": "Helvetica Neue, sans-serif",
+                          "font-weight": "normal",
+                          "font-size": "15.299999999999999px",
+                          "color": "#4c4c4c"
+                        }
+                      },
+                      "text": {
+                        "button": "Add to cart"
+                      }
+                    },
+                    "option": {},
+                    "cart": {
+                      "styles": {
+                        "button": {
+                          ":hover": {
+                            "background-color": "#000000"
+                          },
+                          "background-color": "#000000",
+                          ":focus": {
+                            "background-color": "#000000"
+                          },
+                          "border-radius": "19px"
+                        }
+                      },
+                      "text": {
+                        "total": "Subtotal",
+                        "button": "Checkout"
+                      }
+                    },
+                    "toggle": {
+                      "styles": {
+                        "toggle": {
+                          "background-color": "#000000",
+                          ":hover": {
+                            "background-color": "#000000"
+                          },
+                          ":focus": {
+                            "background-color": "#000000"
+                          }
+                        }
+                      }
+                    }
+                  }
+                });
+              });
+            }
+          })();
+          /*]]>*/
+          </script>
         </div>
       </div>
     </div>

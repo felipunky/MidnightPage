@@ -62,7 +62,13 @@ body
     padding-top: 2%;
 }
 
+.item-selected
+{
+    transition: transform .2s; /* Animation */
+    margin: 0 auto;
+}
+
 .item-selected:hover 
 { 
-    transform: scale(1.2); 
+    transform: scale(1.1);
 }
