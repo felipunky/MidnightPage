@@ -10,10 +10,21 @@ body
     color: rgb(147 147 147);
 }
 
+.midnight-title
+{
+    color: rgb(100, 100, 100);
+    text-decoration: none;
+}
+
+.midnight-title:hover
+{
+    color: rgb(99, 89, 0);
+}
+
 /* Modify brand and text color */
 .navbar-custom
 {
-    color: green;
+    color: rgb(0, 0, 0);
     background-color: rgb(0, 0, 0);
 }
 
@@ -25,6 +36,11 @@ body
 .nav-link
 {
     color: rgb(100, 100, 100);
+}
+
+.nav-link:hover
+{
+    color: rgb(99, 89, 0);
 }
 
 .logo
@@ -44,3 +60,8 @@ body
     color: rgb(255, 255, 255);
     padding-top: 2%;
 }
+
+.item-selected:hover 
+{ 
+    transform: scale(1.2); 
+} 
