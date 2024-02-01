@@ -1,3 +1,17 @@
+function GetProductID(className)
+{
+    var el = document.getElementsByClassName(className);
+    for(var i = 0; i < el.length; ++i)
+    {
+        el[i].addEventListener("click", storeValue)
+        function storeValue()
+        {
+        let attribute = this.getAttribute("alt");
+        localStorage.setItem('productID', attribute)
+        };
+    }
+}
+
 function Shopify(productID, productComponent) 
 {
     var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
