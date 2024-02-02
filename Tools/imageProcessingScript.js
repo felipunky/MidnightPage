@@ -56,11 +56,18 @@ uniform float u_Size;
 uniform vec2 u_BrightnessContrast;
 uniform vec3 u_HSV;
 uniform float u_WidthSDF;
+uniform float u_RingSize;
 uniform int u_Vignette;
 uniform int u_Rings;
 uniform int u_ScaleLogo;
 uniform float u_NoiseTime;
 uniform float u_InnerWidth;
+uniform vec4 u_Logo;
+uniform vec4 u_LogoOne; 
+/* uniforms.logoOrientation, uniforms.logoNoiseFrequency, 
+   uniforms.logoNoiseStrength, 1.0);
+*/
+uniform vec2 u_LogoResolution;
 
 // we need to declare an output for the fragment shader
 out vec4 outColor;
@@ -388,17 +395,19 @@ vec3 brightnessContrast( const in vec3 colIn, const in float brightness, const i
 void main() 
 {
     vec2 r = vec2(1.0);
-    if (u_resolution.x < u_resolution.y)
+    if (u_resolution.x > u_resolution.y)
     {
-      r.x = u_resolution.x / u_resolution.y;
+      float ratio = u_resolution.y / u_resolution.x;
+      r.y = ratio;
     }
     else
     {
-      r.y = u_resolution.y / u_resolution.x;
+      float ratio = u_resolution.y / u_resolution.x;
+      r.x = ratio;
     }
     vec2 p = v_texCoord*2.-1.;
-    vec2 pLogo = p;
     p *= r;
+    
     float n = snoise(p * u_noise.y + u_NoiseTime);
     p += n * u_noise.x;
     vec2 p0 = p;
@@ -491,16 +500,18 @@ void main()
     {
       float scale = float(u_Rings);
       float widthRings = u_WidthSDF;
+      float absSubtract = widthRings / (scale+1.) * 1.;
       for (int i = 0; i < u_Rings; ++i)
       {
-        d = abs(d + widthRings*0.5) - widthRings;
+        d = abs(d - absSubtract) - widthRings;
         widthRings /= scale;
       }
+      d -= u_RingSize;
     }
 
     float s = smoothstep(0., u_softness, d);
-    
-    vec4 tex = texture(u_image0, v_texCoord);
+    vec2 uv = v_texCoord;
+    vec4 tex = texture(u_image0, uv);
     vec3 hsv = RGBtoHSV(tex.rgb) * ((u_HSV+1.)*2.-1.);
     vec3 rgb = HSVtoRGB(hsv);
     // Brightness/Contrast
@@ -513,18 +524,29 @@ void main()
     }
     // Logo
     {
-      float sca = 7.0-float(u_ScaleLogo);
-      float modSca = mod(sca, 2.);
-      float scaH = floor(sca*0.5);
-      vec3 logoCol = texture(u_image1, fract(v_texCoord*sca)).rgb;
-      pLogo = pLogo*(sca/2.);
-      pLogo += (modSca != 0. ? .5 : 0.);
-      vec2 idLogo = floor(pLogo);
+      float boxLogoScale = mix(0.5, 5.0, (1. - u_Logo.z));
+      vec2 pLogo = (-u_LogoResolution.xy + 2.0 * gl_FragCoord.xy) / u_LogoResolution.y;
       
-      pLogo = fract(pLogo)-.5;
-      float dLogo = sdRoundedBox( pLogo + snoise(pLogo * u_noise.y + u_NoiseTime)*u_noise.x, vec2( .4 ), vec4( 0. ) );
-      float sLogo = smoothstep(0., u_softness, dLogo);
-      if (idLogo.x == -scaH && idLogo.y == sca-1.-scaH)
+      pLogo = pLogo - u_Logo.xy;
+      pLogo *= boxLogoScale;
+      pLogo *= rot(radians(u_LogoOne.x));
+      vec2 logoUV = (pLogo * vec2(1, -1)) * 0.5 + 0.5;
+      float tt = 1.47;
+      logoUV = logoUV * (1. + tt) - vec2(tt*.5);
+      
+      vec2 reciprocalLogoResolution = 1. / u_LogoResolution * 2.0;
+      reciprocalLogoResolution = 0.5 - reciprocalLogoResolution;
+      vec2 absLogoUV = abs(logoUV - 0.5);
+
+      vec3 logoCol = vec3(0);
+      bool clipLogo = absLogoUV.x > reciprocalLogoResolution.x || absLogoUV.y > reciprocalLogoResolution.y; 
+      if (!clipLogo)
+      {
+        logoCol = texture(u_image1, logoUV).rgb;
+      }
+      float dLogo = sdRoundedBox( pLogo + snoise(pLogo * u_LogoOne.y + u_NoiseTime) * u_LogoOne.z, vec2( .4 ), vec4( 0. ) );
+      float sLogo = smoothstep(0., u_Logo.w, dLogo);
+      // Blend logo.
       {
         col = mix(logoCol, col, sLogo);
       }
@@ -542,12 +564,32 @@ function imageIsLoaded(image)
   })
 }
 
-const imgNames = ["IMG_1524.jpg", "midnightLogo.jpg"];
+const imgNames = ["IMG_0809.jpeg", "midnightLogo.jpg"];
 const images = [];
 for (var i = 0; i < imgNames.length; ++i)
 {
   images.push(new Image());
   images[i].src = "../Images/" + imgNames[i];
+}
+
+function getSize(multiplier, widthImg, heightImg)
+{
+  const ratio = widthImg > heightImg ? heightImg / widthImg : widthImg / heightImg;
+  multiplier = multiplier || 1;
+  let width;  
+  let height; 
+  if (window.innerWidth < widthImg)
+  {
+    width  = window.innerWidth * multiplier | 0;
+    height = window.innerWidth * ratio * multiplier | 0;
+  }
+  else
+  {
+    width = widthImg * multiplier | 0;
+    height = heightImg * multiplier | 0;
+  }
+  //console.log(`Get Size Width: ${width} Height: ${height} Ratio: ${ratio} ImageWidth: ${widthImg} ImageHeight: ${heightImg}`);
+  return [width, height];
 }
 
 Promise.all(images.map(imageIsLoaded)).then(() => 
@@ -563,15 +605,30 @@ function main()
   gui = new dat.GUI();
   // Get A WebGL context
   /** @type {HTMLCanvasElement} */
-  var canvas = document.querySelector("#canvas");
-  canvas.width = images[0].width;
-  canvas.height = images[0].height;
+  var body = document.getElementsByTagName("body")[0];
+  var canvas = document.getElementById("canvas");
+
+  // var getImagePersistent = localStorage.getItem("imagePersistent");
+  // if (getImagePersistent !== null)
+  // {
+  //   //getImagePersistent = JSON.parse(getImagePersistent);
+  //   console.log(getImagePersistent);
+  // }
+
+  var size = getSize(window.devicePixelRatio, images[0].width, images[0].height);
+  canvas.width = size[0];
+  canvas.height = size[1];
+
   var gl = canvas.getContext("webgl2");
   if (!gl) 
   {
     return;
   }
-
+  //gl.canvas.width = canvas.width;
+  //gl.canvas.height = canvas.height;
+  console.log(`Width: ${gl.canvas.width}, Height: ${gl.canvas.height}`);
+  //canvas.width = gl.canvas.width;
+  //canvas.height = gl.canvas.height;
   // setup GLSL program
   var program = webglUtils.createProgramFromSources(gl,
       [vertexShaderSource, fragmentShaderSource]);
@@ -595,24 +652,27 @@ function main()
   var brightnessContrastLocation = gl.getUniformLocation(program, "u_BrightnessContrast");
   var hsvLocation = gl.getUniformLocation(program, "u_HSV");
   var widthSDFLocation = gl.getUniformLocation(program, "u_WidthSDF");
-  var scaleLogoLocation = gl.getUniformLocation(program, "u_ScaleLogo");
+  var ringSizeLocation = gl.getUniformLocation(program, "u_RingSize");
   var vignetteLocation = gl.getUniformLocation(program, "u_Vignette");
   var ringsLocation = gl.getUniformLocation(program, "u_Rings");
   var noiseTimeLocation = gl.getUniformLocation(program, "u_NoiseTime");
   var innerWidthLocation = gl.getUniformLocation(program, "u_InnerWidth");
+  var logoLocation = gl.getUniformLocation(program, "u_Logo");
+  var logoLocationOne = gl.getUniformLocation(program, "u_LogoOne");
+  var logoSizeLocation = gl.getUniformLocation(program, "u_LogoResolution");
 
   const uniforms = 
   {
     shape: 1,
     size: 1.4,
     innerWidth: 0.5,
-    canvasMultiplier: true,
     angle: 0.0,
     noiseStrength: 0.01,
     noiseFrequency: 10.0,
     noiseTime: 0.0,
     rings: 0,
     widthSDF: 0.026,
+    ringSize: 0.0,
     X: 0.0,
     Y: 0.0,
     softness: 0.1,
@@ -624,8 +684,32 @@ function main()
     vignette: 0,
     vignetteDummy: true,
     miniatureDummy: true,
-    logoScale: 4
+    logoScale: 1.0,
+    logoX: 0.0,
+    logoY: 0.0,
+    logoSoftness: 0.01,
+    logoOrientation: 0.0,
+    logoNoiseStrength: 0.0,
+    logoNoiseFrequency: 10.0,
+    logoXResolution: images[1].width,
+    logoYResolution: images[1].height
   }
+
+  // Load uniforms from cache.
+  var getUniformsPersistent = localStorage.getItem("uniformsPersistent");
+  if (getUniformsPersistent !== null)
+  {
+    getUniformsPersistent = JSON.parse(getUniformsPersistent);
+    for (const [key, value] of Object.entries(getUniformsPersistent)) 
+    {
+      //console.log(`key: ${key}, value: ${value}`);
+      if (value != uniforms[key])
+      {
+        uniforms[key] = value;
+      }
+    }
+  }
+
   let step = 0.001;
   gui.add(uniforms, 'shape', { Star: 0, Box: 1, Circle: 2, Triangle: 3, 
                                Pentagon: 4, Hexagon: 5, Heart: 6,
@@ -634,13 +718,9 @@ function main()
   gui.add(uniforms, 'size', 0.1, 2.0, 0.01).name("Size");
   gui.add(uniforms, 'innerWidth', 0.1, 1.0, 0.01).name("Inner Width");
   gui.add(uniforms, "softness", 0.01, 0.5, step ).name("Softness");
-  gui.add(uniforms, 'rings', 0, 4).name("Rings");
-  gui.add(uniforms, 'widthSDF', 0.0, 0.1, 0.001).name("Width SDF");
-  gui.add(uniforms, "logoScale", 1, 6).name("Scale Logo");
-  gui.add(uniforms, 'canvasMultiplier').name("Scale").listen().onChange( function() 
-  {
-    scaleCheckbox(uniforms.canvasMultiplier);
-  });
+  gui.add(uniforms, 'rings', 0, 3).name("Rings");
+  gui.add(uniforms, 'widthSDF', 0.0, 0.5, 0.001).name("Ring Distance");
+  gui.add(uniforms, 'ringSize', 0.0, 0.1, 0.001).name("Ring Size");
   gui.add(uniforms, 'vignetteDummy').name("Vignette").listen().onChange( function() 
   {
     vignetteCheckbox();
@@ -665,6 +745,22 @@ function main()
   hsvFolder.add( uniforms, "hue", -1.0, 1.0, step ).name("Hue");
   hsvFolder.add( uniforms, "saturation", -1.0, 1.0, step ).name("Saturation");
   hsvFolder.add( uniforms, "value", -1.0, 1.0, step ).name("Value");
+
+  var logoFolder = gui.addFolder("Logo");
+  logoFolder.add( uniforms, "logoSoftness", 0.01, 0.5, step ).name("Softness");
+  logoFolder.add( uniforms, "logoNoiseStrength", 0.0, 0.05, 0.001 ).name("Noise Strength");
+  logoFolder.add( uniforms, "logoNoiseFrequency", 0.0, 10.0, 0.01 ).name("Noise Frequency");
+  logoFolder.add( uniforms, "logoScale", 0.001, 1., 0.01 ).name("Scale");
+  logoFolder.add( uniforms, "logoOrientation", 0.0, 360.0, 0.01 ).name("Orientation");
+  logoFolder.add( uniforms, "logoX", -1.0, 1.0, 0.01 ).name("Move X");
+  logoFolder.add( uniforms, "logoY", -1.0, 1.0, 0.01 ).name("Move Y");
+  /* 
+  logoScale: 1.0,
+    logoX: 0.0,
+    logoY: 0.0
+    logoOrientation: 0.0,
+    logoNoise: 0.0,
+  */
 
   // Create a vertex array object (attribute state)
   var vao = gl.createVertexArray();
@@ -712,128 +808,161 @@ function main()
   var normalize = false; // don't normalize the data
   var stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
   var offset = 0;        // start at the beginning of the buffer
-  gl.vertexAttribPointer(
-      texCoordAttributeLocation, size, type, normalize, stride, offset);
-  for (var i = 0; i < images.length; ++i)
+  gl.vertexAttribPointer(texCoordAttributeLocation, size, type, normalize, stride, offset);
+  
+  function createImageTextures()
   {
-    // Create a texture.
-    var texture = gl.createTexture();
 
-    // make unit 0 the active texture uint
-    // (ie, the unit all other texture commands will affect
-    gl.activeTexture(gl.TEXTURE0 + i);
+    for (var i = 0; i < images.length; ++i)
+    {
+      // Create a texture.
+      var texture = gl.createTexture();
 
-    // Bind it to texture unit 0' 2D bind point
-    gl.bindTexture(gl.TEXTURE_2D, texture);
+      // make unit 0 the active texture uint
+      // (ie, the unit all other texture commands will affect
+      gl.activeTexture(gl.TEXTURE0 + i);
 
-    // Set the parameters so we don't need mips and so we're not filtering
-    // and we don't repeat
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      // Bind it to texture unit 0' 2D bind point
+      gl.bindTexture(gl.TEXTURE_2D, texture);
 
-    // Upload the image into the texture.
-    var mipLevel = 0;               // the largest mip
-    var internalFormat = gl.RGBA;   // format we want in the texture
-    var srcFormat = gl.RGBA;        // format of data we are supplying
-    var srcType = gl.UNSIGNED_BYTE; // type of data we are supplying
-    gl.texImage2D(gl.TEXTURE_2D,
-                  mipLevel,
-                  internalFormat,
-                  srcFormat,
-                  srcType,
-                  images[i]);
+      // Set the parameters so we don't need mips and so we're not filtering
+      // and we don't repeat
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+      // Upload the image into the texture.
+      var mipLevel = 0;               // the largest mip
+      var internalFormat = gl.RGBA;   // format we want in the texture
+      var srcFormat = gl.RGBA;        // format of data we are supplying
+      var srcType = gl.UNSIGNED_BYTE; // type of data we are supplying
+      gl.texImage2D(gl.TEXTURE_2D,
+                    mipLevel,
+                    internalFormat,
+                    srcFormat,
+                    srcType,
+                    images[i]);
+      gl.generateMipmap(gl.TEXTURE_2D);
+    }
   }
+
+  createImageTextures();
+
   const render = () =>
   {
-    drawScene(false);
+    drawScene(false, 0, 0);
   }
   render();
 
   function drawScene(originalSize, width, height)
   {
-      //webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+    if (originalSize)
+    {
+      canvas.width = width;
+      canvas.height = height;
+      gl.viewport(0, 0, width, height);
+      console.log("Origi");
+    }
+    else
+    {
+      let size = getSize(window.devicePixelRatio, images[0].width, images[0].height);
+      canvas.style.width = size[0]; 
+      canvas.style.height = size[1];
+      gl.canvas.width = size[0];
+      gl.canvas.height = size[1];
 
-      // Tell WebGL how to convert from clip space to pixels
-      if (originalSize)
-      {
-        canvas.width = width;
-        canvas.height = height;
-        gl.viewport(0, 0, width, height);
-      }
-      else if (uniforms.canvasMultiplier)
-      {
-        webglUtils.resizeCanvasToDisplaySize(gl.canvas);
-        gl.viewport(gl.canvas.width / 5, gl.canvas.height / 5, gl.canvas.width / 2, gl.canvas.height / 2);
-        //gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-      }
-      else
-      {
-        webglUtils.resizeCanvasToDisplaySize(gl.canvas);
-        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-      }
-      
-      /*else
-      {
-        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-        //downloadImage(gl,);
-        download = false;
-        //uniforms.canvasMultiplier = true;
-      }*/
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    }
 
-      // Clear the canvas
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    // Clear the canvas
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-      // Tell it to use our program (pair of shaders)
-      gl.useProgram(program);
+    // Tell it to use our program (pair of shaders)
+    gl.useProgram(program);
 
-      // Bind the attribute/buffer set we want.
-      gl.bindVertexArray(vao);
+    // Bind the attribute/buffer set we want.
+    gl.bindVertexArray(vao);
 
-      // Pass in the canvas resolution so we can convert from
-      // pixels to clipspace in the shader
-      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
+    // Pass in the canvas resolution so we can convert from
+    // pixels to clipspace in the shader
+    gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
 
-      // Tell the shader to get the texture from texture unit 0
-      for (var i = 0; i < imageLocations.length; ++i)
-      {
-        gl.uniform1i(imageLocations[i], i);
-      }
-      gl.uniform2f(noiseLocation, uniforms.noiseStrength, uniforms.noiseFrequency);
-      gl.uniform3f(moveLocation, uniforms.X, uniforms.Y, uniforms.angle);
-      gl.uniform1f(softnessLocation, uniforms.softness);
-      gl.uniform1i(shapeLocation, uniforms.shape);
-      gl.uniform1f(sizeLocation, uniforms.size);
-      gl.uniform2f(brightnessContrastLocation, uniforms.brightness, uniforms.contrast);
-      gl.uniform3f(hsvLocation, uniforms.hue, uniforms.saturation, uniforms.value);
-      gl.uniform1f(widthSDFLocation, uniforms.widthSDF);
-      gl.uniform1i(vignetteLocation, uniforms.vignetteDummy ? 1 : 0);
-      gl.uniform1i(ringsLocation, uniforms.rings);
-      gl.uniform1i(scaleLogoLocation, uniforms.logoScale);
-      gl.uniform1f(noiseTimeLocation, uniforms.noiseTime * 1000.0);
-      gl.uniform1f(innerWidthLocation, uniforms.innerWidth);
+    // Tell the shader to get the texture from texture unit 0
+    for (var i = 0; i < imageLocations.length; ++i)
+    {
+      gl.uniform1i(imageLocations[i], i);
+    }
+    gl.uniform2f(noiseLocation, uniforms.noiseStrength, uniforms.noiseFrequency);
+    gl.uniform3f(moveLocation, uniforms.X, uniforms.Y, uniforms.angle);
+    gl.uniform1f(softnessLocation, uniforms.softness);
+    gl.uniform1i(shapeLocation, uniforms.shape);
+    gl.uniform1f(sizeLocation, uniforms.size);
+    gl.uniform2f(brightnessContrastLocation, uniforms.brightness, uniforms.contrast);
+    gl.uniform3f(hsvLocation, uniforms.hue, uniforms.saturation, uniforms.value);
+    gl.uniform1f(widthSDFLocation, uniforms.widthSDF);
+    gl.uniform1f(ringSizeLocation, uniforms.ringSize);
+    gl.uniform1i(vignetteLocation, uniforms.vignetteDummy ? 1 : 0);
+    gl.uniform1i(ringsLocation, uniforms.rings);
+    gl.uniform1f(noiseTimeLocation, uniforms.noiseTime * 1000.0);
+    gl.uniform1f(innerWidthLocation, uniforms.innerWidth);
+    gl.uniform4f(logoLocation, uniforms.logoX, uniforms.logoY, uniforms.logoScale, uniforms.logoSoftness);
+    gl.uniform4f(logoLocationOne, uniforms.logoOrientation, uniforms.logoNoiseFrequency, uniforms.logoNoiseStrength, 1.0);
+    gl.uniform2f(logoSizeLocation, uniforms.logoXResolution, uniforms.logoYResolution);
 
-      // Bind the position buffer so gl.bufferData that will be called
-      // in setRectangle puts data in the position buffer
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    // Bind the position buffer so gl.bufferData that will be called
+    // in setRectangle puts data in the position buffer
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-      // Set a rectangle the same size as the image.
-      setRectangle(gl, 0, 0, gl.canvas.width, gl.canvas.height);
+    // Set a rectangle the same size as the image.
+    setRectangle(gl, 0, 0, gl.canvas.width, gl.canvas.height);
 
-      // Draw the rectangle.
-      var primitiveType = gl.TRIANGLES;
-      var offset = 0;
-      var count = 6;
-      gl.drawArrays(primitiveType, offset, count);
+    // Draw the rectangle.
+    var primitiveType = gl.TRIANGLES;
+    var offset = 0;
+    var count = 6;
+    gl.drawArrays(primitiveType, offset, count);
 
-      window.requestAnimationFrame(render);
+    window.requestAnimationFrame(render);
   }
 
-  function scaleCheckbox(checkbox)
+  /**
+     * Resize a canvas to match the size its displayed.
+     * @param {HTMLCanvasElement} canvas The canvas to resize.
+     * @param {number} [multiplier] amount to multiply by.
+     *    Pass in window.devicePixelRatio for native pixels.
+     * @param {number} [widthImg] image width.
+     * @param {number} [heightImg] image height.
+     * @return {boolean} true if the canvas was resized.
+     * @memberOf module:webgl-utils
+     */
+  function resizeCanvasToDisplaySizeCustom(canvas, multiplier, widthImg, heightImg) {
+    const ratio = heightImg / widthImg;
+    multiplier = multiplier || 1;
+    const width  = canvas.clientWidth * multiplier | 0;
+    const height = canvas.clientHeight * ratio * multiplier | 0;
+    //console.log(`Width: ${width} Height: ${height} Ratio: ${ratio}`);
+    if (canvas.width !== width ||  canvas.height !== height) {
+      canvas.width  = width;
+      canvas.height = height;
+      return true;
+    }
+    return false;
+  }
+
+  function makeResizeCanvas(canvas, multiplier, widthImg, heightImg)
   {
-    checkbox = !checkbox;
+    return function()
+    {
+      console.log("Here");
+      if (resizeCanvasToDisplaySizeCustom(canvas, multiplier, widthImg, heightImg)) 
+      {
+        console.log(`Width: ${canvas.width} Height: ${canvas.height}`);
+        // in this case just render when the window is resized.
+        drawScene();
+      }
+    }
   }
 
   function setRectangle(gl, x, y, width, height) 
@@ -901,28 +1030,65 @@ function main()
   {
     miniature = !miniature;
   }
-  //window.addEventListener('load', function() 
-  //{
-    document.querySelector('input[type="file"]').addEventListener('change', function() 
+
+  document.querySelector('input[type="file"]').addEventListener('change', function() 
+  {
+    if (this.files && this.files[0]) 
     {
-      if (this.files && this.files[0]) 
+      var img = new Image();
+      img.onload = () => 
       {
-        var img = new Image();
-        img.onload = () => 
-        {
-            URL.revokeObjectURL(img.src);  // no longer needed, free memory
-        }
-        img.src = URL.createObjectURL(this.files[0]); // set src to blob url
-        images[0] = img;  // MUST BE SAME DOMAIN!!!
-        var name = this.files[0].name.split('.');
-        imgNames[0] = name[0];
-        //console.log(imgNames[0]);
-        images[0].onload = function() 
-        {
-          elem.removeEventListener('click', downloadListener);
-          main();
-        };
+          URL.revokeObjectURL(img.src);  // no longer needed, free memory
       }
-    }, {once: true});
-  //});
+      img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+      // Store image.
+      console.log("", this.files[0]);
+      //localStorage.setItem("imagePersistent", JSON.stringify(this.files[0]));
+      images[0] = img;  // MUST BE SAME DOMAIN!!!
+      var name = this.files[0].name.split('.');
+      imgNames[0] = name[0];
+      //console.log(imgNames[0]);
+      images[0].onload = function() 
+      {
+        // Store uniforms.
+        localStorage.setItem("uniformsPersistent", JSON.stringify(uniforms));
+        elem.removeEventListener('click', downloadListener);
+        main();
+      };
+    }
+  }, {once: true});
+  window.onbeforeunload = function(e)
+  {
+    localStorage.setItem("uniformsPersistent", JSON.stringify(uniforms));
+    //localStorage.setItem("imagePersistent", imgNames[0]);
+  }
+  window.onload = function(e)
+  {
+    if (localStorage.getItem('reload-url') != null)
+    {
+      if (window.location.href == localStorage.getItem('reload-url'))
+      {
+        // Reload uniforms.
+        var getUniformsPersistent = localStorage.getItem("uniformsPersistent");
+        if (getUniformsPersistent !== null)
+        {
+          getUniformsPersistent = JSON.parse(getUniformsPersistent);
+          for (const [key, value] of Object.entries(getUniformsPersistent)) 
+          {
+            //console.log(`key: ${key}, value: ${value}`);
+            if (value != uniforms[key])
+            {
+              uniforms[key] = value;
+            }
+          }
+        }
+        // var getImagePersistent = localStorage.getItem("imagePersistent");
+        // if (getImagePersistent !== null)
+        // {
+        //   imgNames[0] = getImagePersistent;
+        // }
+      }
+    }
+  }
 }
+
