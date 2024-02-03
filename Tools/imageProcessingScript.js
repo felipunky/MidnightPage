@@ -8,7 +8,7 @@ in vec2 a_position;
 in vec2 a_texCoord;
 
 // Used to pass in the resolution of the canvas
-uniform vec2 u_resolution;
+uniform vec2 u_Resolution;
 
 // Used to pass the texture coordinates to the fragment shader
 out vec2 v_texCoord;
@@ -17,7 +17,7 @@ out vec2 v_texCoord;
 void main() {
 
   // convert the position from pixels to 0.0 to 1.0
-  vec2 zeroToOne = a_position / u_resolution;
+  vec2 zeroToOne = a_position / u_Resolution;
 
   // convert from 0->1 to 0->2
   vec2 zeroToTwo = zeroToOne * 2.0;
@@ -40,17 +40,20 @@ var fragmentShaderSource = `#version 300 es
 precision highp float;
 
 // our texture
-uniform sampler2D u_image0;
-uniform sampler2D u_image1;
+uniform sampler2D u_Image0;
+uniform sampler2D u_Image1;
+uniform sampler2D u_Backbuffer;
 
 // the texCoords passed in from the vertex shader.
 in vec2 v_texCoord;
 
 // Used to pass in the resolution of the canvas
-uniform vec2 u_resolution;
-uniform vec2 u_noise;
+uniform int u_Frame;
+uniform vec2 u_Resolution;
+uniform vec3 u_Mouse;
+uniform vec2 u_Noise;
 uniform vec3 u_Move;
-uniform float u_softness;
+uniform float u_Softness;
 uniform int u_Shape;
 uniform float u_Size;
 uniform vec2 u_BrightnessContrast;
@@ -64,9 +67,6 @@ uniform float u_NoiseTime;
 uniform float u_InnerWidth;
 uniform vec4 u_Logo;
 uniform vec4 u_LogoOne; 
-/* uniforms.logoOrientation, uniforms.logoNoiseFrequency, 
-   uniforms.logoNoiseStrength, 1.0);
-*/
 uniform vec2 u_LogoResolution;
 
 // we need to declare an output for the fragment shader
@@ -395,21 +395,22 @@ vec3 brightnessContrast( const in vec3 colIn, const in float brightness, const i
 void main() 
 {
     vec2 r = vec2(1.0);
-    if (u_resolution.x > u_resolution.y)
+    if (u_Resolution.x > u_Resolution.y)
     {
-      float ratio = u_resolution.y / u_resolution.x;
+      float ratio = u_Resolution.y / u_Resolution.x;
       r.y = ratio;
     }
     else
     {
-      float ratio = u_resolution.y / u_resolution.x;
+      float ratio = u_Resolution.y / u_Resolution.x;
       r.x = ratio;
     }
     vec2 p = v_texCoord*2.-1.;
     p *= r;
+    vec2 pMouse = p;
     
-    float n = snoise(p * u_noise.y + u_NoiseTime);
-    p += n * u_noise.x;
+    float n = snoise(p * u_Noise.y + u_NoiseTime);
+    p += n * u_Noise.x;
     vec2 p0 = p;
     p += u_Move.xy * vec2(-1, 1);
     
@@ -509,9 +510,9 @@ void main()
       d -= u_RingSize;
     }
 
-    float s = smoothstep(0., u_softness, d);
+    float s = smoothstep(0., u_Softness, d);
     vec2 uv = v_texCoord;
-    vec4 tex = texture(u_image0, uv);
+    vec4 tex = texture(u_Image0, uv);
     vec3 hsv = RGBtoHSV(tex.rgb) * ((u_HSV+1.)*2.-1.);
     vec3 rgb = HSVtoRGB(hsv);
     // Brightness/Contrast
@@ -519,7 +520,7 @@ void main()
     col = mix(vec3(0), col, (u_Rings == 0 ? 1.-s : s));
     if (u_Vignette == 1)
     {
-      float s0 = smoothstep(0., u_softness, d0);
+      float s0 = smoothstep(0., u_Softness, d0);
       col = mix(col, vec3(0), s0);
     }
     // Logo
@@ -542,7 +543,7 @@ void main()
       bool clipLogo = absLogoUV.x > reciprocalLogoResolution.x || absLogoUV.y > reciprocalLogoResolution.y; 
       if (!clipLogo)
       {
-        logoCol = texture(u_image1, logoUV).rgb;
+        logoCol = texture(u_Image1, logoUV).rgb;
       }
       float dLogo = sdRoundedBox( pLogo + snoise(pLogo * u_LogoOne.y + u_NoiseTime) * u_LogoOne.z, vec2( .4 ), vec4( 0. ) );
       float sLogo = smoothstep(0., u_Logo.w, dLogo);
@@ -551,8 +552,21 @@ void main()
         col = mix(logoCol, col, sLogo);
       }
     }
-    outColor = vec4(col, 1.0);
-}
+    vec2 mou = u_Mouse.xy;
+    //if ()
+    vec2 mouse = (u_Mouse.xy / u_Resolution)*2.-1.;
+    float dMouse = length(pMouse - mouse) - 0.01;
+    
+    if (u_Frame > 10)
+    {
+      float back = texture(u_Backbuffer, v_texCoord*vec2(1, -1)+vec2(0, 1)).a;
+      dMouse = min(dMouse, back);
+    }
+    float sMouse = smoothstep(0., u_Softness, dMouse);
+    col = mix(vec3(0), col, sMouse);
+    //mouCol += back;
+    outColor = vec4(col, dMouse);
+  }
 `;
 
 function imageIsLoaded(image) 
@@ -605,7 +619,6 @@ function main()
   gui = new dat.GUI();
   // Get A WebGL context
   /** @type {HTMLCanvasElement} */
-  var body = document.getElementsByTagName("body")[0];
   var canvas = document.getElementById("canvas");
 
   // var getImagePersistent = localStorage.getItem("imagePersistent");
@@ -619,7 +632,7 @@ function main()
   canvas.width = size[0];
   canvas.height = size[1];
 
-  var gl = canvas.getContext("webgl2");
+  var gl = canvas.getContext("webgl2", { alpha: false });
   if (!gl) 
   {
     return;
@@ -638,15 +651,18 @@ function main()
   var texCoordAttributeLocation = gl.getAttribLocation(program, "a_texCoord");
 
   // lookup uniforms
-  var resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+  var resolutionLocation = gl.getUniformLocation(program, "u_Resolution");
+  var frameLocation = gl.getUniformLocation(program, "u_Frame");
   var imageLocations = [];
   for (var i = 0; i < images.length; ++i)
   {
-    imageLocations.push(gl.getUniformLocation(program, "u_image" + i));
+    imageLocations.push(gl.getUniformLocation(program, "u_Image" + i));
   }
-  var noiseLocation = gl.getUniformLocation(program, "u_noise");
+  var backbufferLocation = gl.getUniformLocation(program, "u_Backbuffer");
+  var mouseLocation = gl.getUniformLocation(program, "u_Mouse");
+  var noiseLocation = gl.getUniformLocation(program, "u_Noise");
   var moveLocation = gl.getUniformLocation(program, "u_Move");
-  var softnessLocation = gl.getUniformLocation(program, "u_softness");
+  var softnessLocation = gl.getUniformLocation(program, "u_Softness");
   var shapeLocation = gl.getUniformLocation(program, "u_Shape");
   var sizeLocation = gl.getUniformLocation(program, "u_Size");
   var brightnessContrastLocation = gl.getUniformLocation(program, "u_BrightnessContrast");
@@ -663,6 +679,10 @@ function main()
 
   const uniforms = 
   {
+    frame: 0,
+    mouseX: 0,
+    mouseY: 0,
+    mouseClick: 0,
     shape: 1,
     size: 1.4,
     innerWidth: 0.5,
@@ -700,10 +720,11 @@ function main()
   if (getUniformsPersistent !== null)
   {
     getUniformsPersistent = JSON.parse(getUniformsPersistent);
+    
     for (const [key, value] of Object.entries(getUniformsPersistent)) 
     {
       //console.log(`key: ${key}, value: ${value}`);
-      if (value != uniforms[key])
+      if (key != "frame" && value != uniforms[key])
       {
         uniforms[key] = value;
       }
@@ -812,12 +833,12 @@ function main()
   
   function createImageTextures()
   {
-
+    let texturesOne = [] 
     for (var i = 0; i < images.length; ++i)
     {
       // Create a texture.
       var texture = gl.createTexture();
-
+      texturesOne.push(texture);
       // make unit 0 the active texture uint
       // (ie, the unit all other texture commands will affect
       gl.activeTexture(gl.TEXTURE0 + i);
@@ -845,40 +866,57 @@ function main()
                     images[i]);
       gl.generateMipmap(gl.TEXTURE_2D);
     }
+    return texturesOne;
   }
 
-  createImageTextures();
+  var imageTextures = createImageTextures();
+
+  function createAndSetupTexture(gl) 
+  {
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // Set up texture so we can render any size image and so we are
+    // working with pixels.
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    return texture;
+  }
+
+  // create 2 textures and attach them to framebuffers.
+  var targetTextures = [];
+  var framebuffers = [];
+  for (var ii = 0; ii < 2; ++ii) {
+    var texture = createAndSetupTexture(gl);
+    targetTextures.push(texture);
+
+    // make the texture the same size as the image
+    gl.texImage2D(
+        gl.TEXTURE_2D, 0, gl.RGBA, gl.canvas.width, gl.canvas.height, 0,
+        gl.RGBA, gl.UNSIGNED_BYTE, null);
+
+    // Create a framebuffer
+    var fbo = gl.createFramebuffer();
+    framebuffers.push(fbo);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+
+    // Attach a texture to it.
+    gl.framebufferTexture2D(
+        gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+  }
 
   const render = () =>
   {
+    uniforms.frame++;
     drawScene(false, 0, 0);
+    //console.log("Frame: ", uniforms.frame);
   }
   render();
 
-  function drawScene(originalSize, width, height)
+  function drawQuad()
   {
-    if (originalSize)
-    {
-      canvas.width = width;
-      canvas.height = height;
-      gl.viewport(0, 0, width, height);
-      console.log("Origi");
-    }
-    else
-    {
-      let size = getSize(window.devicePixelRatio, images[0].width, images[0].height);
-      canvas.style.width = size[0]; 
-      canvas.style.height = size[1];
-      gl.canvas.width = size[0];
-      gl.canvas.height = size[1];
-
-      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    }
-
-    // Clear the canvas
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
     // Tell it to use our program (pair of shaders)
     gl.useProgram(program);
 
@@ -887,6 +925,7 @@ function main()
 
     // Pass in the canvas resolution so we can convert from
     // pixels to clipspace in the shader
+    gl.uniform1i(frameLocation, uniforms.frame);
     gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
 
     // Tell the shader to get the texture from texture unit 0
@@ -894,6 +933,9 @@ function main()
     {
       gl.uniform1i(imageLocations[i], i);
     }
+    //console.log("Iter: ", imageLocations.length);
+    gl.uniform1i(backbufferLocation, imageLocations.length);
+    gl.uniform3f(mouseLocation, uniforms.mouseX, uniforms.mouseY, uniforms.mouseClick);
     gl.uniform2f(noiseLocation, uniforms.noiseStrength, uniforms.noiseFrequency);
     gl.uniform3f(moveLocation, uniforms.X, uniforms.Y, uniforms.angle);
     gl.uniform1f(softnessLocation, uniforms.softness);
@@ -923,7 +965,87 @@ function main()
     var offset = 0;
     var count = 6;
     gl.drawArrays(primitiveType, offset, count);
+  }
 
+  function drawScene(originalSize, width, height)
+  {
+    let currentFrameMod = uniforms.frame % targetTextures.length;
+    let invCurrentFrameMod = (uniforms.frame + 1) % targetTextures.length;
+    //console.log("Frame: ", currentFrameMod);
+    if (originalSize)
+    {
+      canvas.width = width;
+      canvas.height = height;
+      gl.viewport(0, 0, width, height);
+      //console.log("Full size");
+    }
+    else
+    {
+      let size = getSize(window.devicePixelRatio, images[0].width, images[0].height);
+      canvas.style.width = size[0]; 
+      canvas.style.height = size[1];
+      gl.canvas.width = size[0];
+      gl.canvas.height = size[1];
+
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    }
+
+    {
+      gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffers[currentFrameMod]);
+      for (var i = 0; i < imageTextures.length; ++i)
+      {
+        gl.activeTexture(gl.TEXTURE0 + i);
+        gl.bindTexture(gl.TEXTURE_2D, imageTextures[i]);
+        //console.log(gl.TEXTURE0 + i + " in");
+      }
+      //console.log(gl.TEXTURE0 + images.length + " out");
+      gl.activeTexture(gl.TEXTURE0 + images.length);
+      //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, targetTextures[currentFrameMod], 0);
+      gl.bindTexture(gl.TEXTURE_2D, targetTextures[invCurrentFrameMod]);
+      //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, targetTextures[currentFrameMod], 0);
+
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+      // Clear the canvas
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+      drawQuad();
+      for (var i = 0; i <= imageTextures.length; ++i)
+      {
+        gl.activeTexture(gl.TEXTURE0 + i);
+        gl.bindTexture(gl.TEXTURE_2D, null);
+      }
+      //gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    }
+
+    // Render to canvas.
+    {
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      for (var i = 0; i < imageTextures.length; ++i)
+      {
+        gl.activeTexture(gl.TEXTURE0 + i);
+        gl.bindTexture(gl.TEXTURE_2D, imageTextures[i]);
+      }
+      gl.activeTexture(gl.TEXTURE0 + images.length);
+      //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, targetTextures[currentFrameMod], 0);
+      gl.bindTexture(gl.TEXTURE_2D, targetTextures[currentFrameMod]);
+
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+      // Clear the canvas
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+      drawQuad();
+      for (var i = 0; i <= imageTextures.length; ++i)
+      {
+        gl.activeTexture(gl.TEXTURE0 + i);
+        gl.bindTexture(gl.TEXTURE_2D, null);
+      }
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    }
+    //console.log(`Mouse X: ${uniforms.mouseX} Mouse Y: ${uniforms.mouseY}`);
     window.requestAnimationFrame(render);
   }
 
@@ -949,20 +1071,6 @@ function main()
       return true;
     }
     return false;
-  }
-
-  function makeResizeCanvas(canvas, multiplier, widthImg, heightImg)
-  {
-    return function()
-    {
-      console.log("Here");
-      if (resizeCanvasToDisplaySizeCustom(canvas, multiplier, widthImg, heightImg)) 
-      {
-        console.log(`Width: ${canvas.width} Height: ${canvas.height}`);
-        // in this case just render when the window is resized.
-        drawScene();
-      }
-    }
   }
 
   function setRectangle(gl, x, y, width, height) 
@@ -1030,6 +1138,33 @@ function main()
   {
     miniature = !miniature;
   }
+
+  canvas.addEventListener("mousedown", function()
+  {
+    //console.log("Mouse down");
+    uniforms.mouseClick = 1;
+  });
+  canvas.addEventListener("mouseup", function()
+  {
+    //console.log("Mouse up");
+    uniforms.mouseClick = 0;
+  });
+
+  canvas.addEventListener("mousemove", event =>
+  {
+    if (uniforms.mouseClick == 1)
+    {
+      let bound = canvas.getBoundingClientRect();
+
+      let x = event.clientX - bound.left - canvas.clientLeft;
+      let y = event.clientY - bound.top - canvas.clientTop;
+
+      uniforms.mouseX = x;// / gl.canvas.width;
+      uniforms.mouseY = y;// / gl.canvas.height;
+      //console.log(`Mouse X: ${uniforms.mouseX} Mouse Y: ${uniforms.mouseY}`);
+    }
+  });
+  
 
   document.querySelector('input[type="file"]').addEventListener('change', function() 
   {
