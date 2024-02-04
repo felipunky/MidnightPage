@@ -68,6 +68,7 @@ uniform float u_InnerWidth;
 uniform vec4 u_Logo;
 uniform vec4 u_LogoOne; 
 uniform vec2 u_LogoResolution;
+uniform vec3 u_Brush;
 
 // we need to declare an output for the fragment shader
 out vec4 outColor;
@@ -418,7 +419,11 @@ void main()
     
     float d0 = sdRoundedBox( p0, vec2( .85 ), vec4( 0. ) );
     float d = 0.0;
-    if (u_Shape == 0)
+    if (u_Shape == -1)
+    {
+      
+    }
+    else if (u_Shape == 0)
     {
       d = sdStar( p, u_Size, 5, 3.);
     }
@@ -523,7 +528,30 @@ void main()
       float s0 = smoothstep(0., u_Softness, d0);
       col = mix(col, vec3(0), s0);
     }
+
+    float mouseCol = 0.0;
+    vec2 mouse = (u_Mouse.xy / u_Resolution)*2.-1.;
+    mouse *= (u_Mouse.z == 0. ? -1000. : 1.);
+    float dMouse = length(pMouse - mouse) - u_Brush.x;
+    
+    if (u_Frame > 10)
+    {
+      float back = texture(u_Backbuffer, v_texCoord*vec2(1, -1)+vec2(0, 1)).a;
+      
+      //dMouse = min(dMouse, back);
+      float sMouse = smoothstep(0., u_Brush.y, dMouse);
+      mouseCol += mix(1., 0.0, sMouse) + back;
+      if (u_Brush.z == 0.)
+      {
+        col *= (1.-mouseCol);
+      }
+      //else
+      {
+        //col = mix(col, mix(vec3(0), col, sMouse), sMouse);
+      }
+    }
     // Logo
+    if (u_LogoOne.w == 1.0)
     {
       float boxLogoScale = mix(0.5, 5.0, (1. - u_Logo.z));
       vec2 pLogo = (-u_LogoResolution.xy + 2.0 * gl_FragCoord.xy) / u_LogoResolution.y;
@@ -552,20 +580,7 @@ void main()
         col = mix(logoCol, col, sLogo);
       }
     }
-    vec2 mou = u_Mouse.xy;
-    //if ()
-    vec2 mouse = (u_Mouse.xy / u_Resolution)*2.-1.;
-    float dMouse = length(pMouse - mouse) - 0.01;
-    
-    if (u_Frame > 10)
-    {
-      float back = texture(u_Backbuffer, v_texCoord*vec2(1, -1)+vec2(0, 1)).a;
-      dMouse = min(dMouse, back);
-    }
-    float sMouse = smoothstep(0., u_Softness, dMouse);
-    col = mix(vec3(0), col, sMouse);
-    //mouCol += back;
-    outColor = vec4(col, dMouse);
+    outColor = vec4(col, mouseCol);
   }
 `;
 
@@ -676,6 +691,7 @@ function main()
   var logoLocation = gl.getUniformLocation(program, "u_Logo");
   var logoLocationOne = gl.getUniformLocation(program, "u_LogoOne");
   var logoSizeLocation = gl.getUniformLocation(program, "u_LogoResolution");
+  var brushLocation = gl.getUniformLocation(program, "u_Brush");
 
   const uniforms = 
   {
@@ -707,12 +723,29 @@ function main()
     logoScale: 1.0,
     logoX: 0.0,
     logoY: 0.0,
+    logoDummy: false,
     logoSoftness: 0.01,
     logoOrientation: 0.0,
     logoNoiseStrength: 0.0,
     logoNoiseFrequency: 10.0,
     logoXResolution: images[1].width,
-    logoYResolution: images[1].height
+    logoYResolution: images[1].height,
+    brushSize: 0.01,
+    brushSoftness: 0.1,
+    brushErase: false,
+    editedName: false,
+    jpg: false,
+    downloadXSize: images[0].width,
+    downloadYSize: images[0].height
+  }
+
+  const downloadUniform = 
+  {
+    downloadScale: 1,
+    downloadXSize: images[0].width,
+    downloadXSizeDummy: images[0].width,
+    downloadYSize: images[0].height,
+    downloadYSizeDummy: images[0].height
   }
 
   // Load uniforms from cache.
@@ -724,7 +757,7 @@ function main()
     for (const [key, value] of Object.entries(getUniformsPersistent)) 
     {
       //console.log(`key: ${key}, value: ${value}`);
-      if (key != "frame" && value != uniforms[key])
+      if (key != "frame" && key != "mouseX" && key != "mouseY" && value != uniforms[key])
       {
         uniforms[key] = value;
       }
@@ -732,7 +765,7 @@ function main()
   }
 
   let step = 0.001;
-  gui.add(uniforms, 'shape', { Star: 0, Box: 1, Circle: 2, Triangle: 3, 
+  gui.add(uniforms, 'shape', { None: -1, Star: 0, Box: 1, Circle: 2, Triangle: 3, 
                                Pentagon: 4, Hexagon: 5, Heart: 6,
                                Moon: 7, Cross: 8, Trapezoid: 9,
                                RoundedX: 10, Arrow: 11, Ellipse: 12 } ).name("Shape");
@@ -742,6 +775,10 @@ function main()
   gui.add(uniforms, 'rings', 0, 3).name("Rings");
   gui.add(uniforms, 'widthSDF', 0.0, 0.5, 0.001).name("Ring Distance");
   gui.add(uniforms, 'ringSize', 0.0, 0.1, 0.001).name("Ring Size");
+  gui.add(uniforms, "logoDummy").name("Logo").listen().onChange( function()
+  {
+    logoCheckbox(uniforms.logoDummy);
+  });
   gui.add(uniforms, 'vignetteDummy').name("Vignette").listen().onChange( function() 
   {
     vignetteCheckbox();
@@ -750,10 +787,28 @@ function main()
   {
     miniatureCheckbox(uniforms.miniatureDummy);
   });
+  gui.add(uniforms, 'editedName').name("Edited").listen().onChange( function() 
+  {
+    editedNameCheckbox(uniforms.editedName);
+  });
+  
+  let downloadScaleX, downloadScaleY;
+  gui.add(downloadUniform, 'downloadScale', 1, 4).onChange( function() 
+  {
+    setDownloadSize(downloadUniform.downloadXSize, downloadUniform.downloadYSize, downloadUniform.downloadScale); 
+  });
+  downloadScaleX = gui.add(downloadUniform, 'downloadXSizeDummy').name("Download Width").listen();
+  downloadScaleY = gui.add(downloadUniform, 'downloadYSizeDummy').name("Download Height").listen();
+
+  gui.add(uniforms, 'jpg').name("JPG").listen().onChange( function() {
+      jpgNameCheckbox(uniforms.jpg);
+  });
+
   var noiseFolder = gui.addFolder("Noise");
   noiseFolder.add( uniforms, "noiseStrength", 0.0, 0.1, 0.01 ).name("Noise Strength");
   noiseFolder.add( uniforms, "noiseFrequency", 0.0, 10.0, 0.01 ).name("Noise Frequency");
   noiseFolder.add( uniforms, "noiseTime", 0.0, 1.0, 0.1 ).name("Noise Time");
+
   var translateFolder = gui.addFolder("Transform");
   translateFolder.add( uniforms, "angle", 0.0, 360.0, 0.1 ).name("Angle");
   translateFolder.add( uniforms, "X", -1.0, 1.0, 0.01 ).name("Move X");
@@ -775,13 +830,14 @@ function main()
   logoFolder.add( uniforms, "logoOrientation", 0.0, 360.0, 0.01 ).name("Orientation");
   logoFolder.add( uniforms, "logoX", -1.0, 1.0, 0.01 ).name("Move X");
   logoFolder.add( uniforms, "logoY", -1.0, 1.0, 0.01 ).name("Move Y");
-  /* 
-  logoScale: 1.0,
-    logoX: 0.0,
-    logoY: 0.0
-    logoOrientation: 0.0,
-    logoNoise: 0.0,
-  */
+
+  var brushFolder = gui.addFolder("Brush");
+  brushFolder.add( uniforms, "brushSize", 0.01, 1.0, 0.001 ).name("Size");
+  brushFolder.add( uniforms, "brushSoftness", 0.01, 0.5, step ).name("Softness");
+  brushFolder.add( uniforms, 'brushErase').name("Brush Erase").listen().onChange( function() 
+  {
+    brushEraseCheckbox(uniforms.brushErase);
+  });
 
   // Create a vertex array object (attribute state)
   var vao = gl.createVertexArray();
@@ -950,8 +1006,9 @@ function main()
     gl.uniform1f(noiseTimeLocation, uniforms.noiseTime * 1000.0);
     gl.uniform1f(innerWidthLocation, uniforms.innerWidth);
     gl.uniform4f(logoLocation, uniforms.logoX, uniforms.logoY, uniforms.logoScale, uniforms.logoSoftness);
-    gl.uniform4f(logoLocationOne, uniforms.logoOrientation, uniforms.logoNoiseFrequency, uniforms.logoNoiseStrength, 1.0);
+    gl.uniform4f(logoLocationOne, uniforms.logoOrientation, uniforms.logoNoiseFrequency, uniforms.logoNoiseStrength, (uniforms.logoDummy ? 1. : 0.));
     gl.uniform2f(logoSizeLocation, uniforms.logoXResolution, uniforms.logoYResolution);
+    gl.uniform3f(brushLocation, uniforms.brushSize, uniforms.brushSoftness, (uniforms.brushErase ? 1. : 0));
 
     // Bind the position buffer so gl.bufferData that will be called
     // in setRectangle puts data in the position buffer
@@ -1090,23 +1147,26 @@ function main()
   }
 
   const elem = document.getElementById('download');
-  elem.addEventListener('click', downloadListener, { once: true });
+  elem.addEventListener('click', downloadListener);
   function downloadListener() 
   {
-    var downloadName = imgNames[0].split('.')[0] + "_Edited";
-    drawScene(true, images[0].width, images[0].height);
+    console.log(`Writing ${uniforms.downloadXSize} * ${uniforms.downloadYSize} image`);
+    var downloadName = imgNames[0].split('.')[0] + (uniforms.editedName ? "_Edited" : "");
+    drawScene(true, uniforms.downloadXSize, uniforms.downloadYSize);
+    drawScene(true, uniforms.downloadXSize, uniforms.downloadYSize);
+    let jpg = (uniforms.jpg ? ".jpg" : ".png");
     canvas.toBlob((blob) => 
     {
-      saveBlob(blob, `${downloadName}.png`);
+      saveBlob(blob, `${downloadName}${jpg}`);
     });
     if (uniforms.miniatureDummy)
     {
-      drawScene(true, images[0].width/4, images[0].height/4);
+      drawScene(true, Math.floor(uniforms.downloadXSize/4), Math.floor(uniforms.downloadYSize/4));
       canvas.toBlob((blob) => {
-        saveBlob(blob, `${downloadName}_Lazy.png`);
+        saveBlob(blob, `${downloadName}_Lazy${jpg}`);
       });
     }
-    console.log(`${downloadName}.png`);
+    console.log(`${downloadName}${jpg}`);
     elem.removeEventListener('click', downloadListener);
   };
 
@@ -1122,6 +1182,11 @@ function main()
     };
   }());
 
+  function logoCheckbox(logo)
+  {
+    logo = !logo;
+  }
+
   function vignetteCheckbox(vignette)
   {
     if (vignette == 0)
@@ -1133,10 +1198,39 @@ function main()
       vignette = 0;
     }
   }
+  
+  function editedNameCheckbox(edited)
+  {
+    edited = !edited;
+  }
+
+  function jpgNameCheckbox(jpg)
+  {
+    jpg = !jpg;
+  }
+
+  function setDownloadSize(sizeX, sizeY, scale)
+  {
+    let s = Math.floor(scale);
+    sizeX = Math.floor(sizeX / s);
+    sizeY = Math.floor(sizeY / s);
+    downloadScaleX.setValue(sizeX);
+    downloadScaleY.setValue(sizeY);
+    uniforms.downloadXSize = sizeX;
+    uniforms.downloadYSize = sizeY;
+    //console.log(sizeX);
+    //console.log(sizeY);
+    //return [sizeX, sizeY];
+  }
 
   function miniatureCheckbox(miniature)
   {
     miniature = !miniature;
+  }
+
+  function brushEraseCheckbox(brushErase)
+  {
+    brushErase = !brushErase;
   }
 
   canvas.addEventListener("mousedown", function()
@@ -1177,7 +1271,7 @@ function main()
       }
       img.src = URL.createObjectURL(this.files[0]); // set src to blob url
       // Store image.
-      console.log("", this.files[0]);
+      //console.log("", this.files[0]);
       //localStorage.setItem("imagePersistent", JSON.stringify(this.files[0]));
       images[0] = img;  // MUST BE SAME DOMAIN!!!
       var name = this.files[0].name.split('.');
