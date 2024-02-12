@@ -72,3 +72,8 @@ body
 { 
     transform: scale(1.1);
 }
+
+.product-embed__image
+{
+    display: none !important;
+}

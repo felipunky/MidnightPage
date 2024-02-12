@@ -67,7 +67,7 @@ uniform float u_NoiseTime;
 uniform float u_InnerWidth;
 uniform vec4 u_Logo;
 uniform vec4 u_LogoOne; 
-uniform vec2 u_LogoResolution;
+uniform vec4 u_LogoResolution;
 uniform vec3 u_Brush;
 
 // we need to declare an output for the fragment shader
@@ -454,7 +454,7 @@ void main()
     else if (u_Shape == 7)
     {
       float ra = u_Size;
-      float rb = 0.8;
+      float rb = u_InnerWidth;
       float di = -0.6;
       d = sdMoon( p, di, ra, rb );
     }
@@ -470,7 +470,7 @@ void main()
     else if (u_Shape == 9)
     {
       float ra = 0.1;
-      float rb = 0.8;
+      float rb = u_InnerWidth;
       vec2  pa = vec2(0.0, -u_Size);
       vec2  pb = vec2(0.0,  u_Size);
       vec2  pc = vec2(u_Size * 2.0, 0.0);
@@ -502,7 +502,7 @@ void main()
       vec2 ra = vec2(u_Size, u_InnerWidth);
  	    d = sdEllipse( p, ra );
     }
-    if (u_Rings > 0)
+    if (u_Rings > 0 && u_Shape != -1)
     {
       float scale = float(u_Rings);
       float widthRings = u_WidthSDF;
@@ -554,8 +554,10 @@ void main()
     if (u_LogoOne.w == 1.0)
     {
       float boxLogoScale = mix(0.5, 5.0, (1. - u_Logo.z));
-      vec2 pLogo = (-u_LogoResolution.xy + 2.0 * gl_FragCoord.xy) / u_LogoResolution.y;
-      
+      vec2 pLogo = v_texCoord * vec2(1, -1) + vec2(0, 1);//(-u_LogoResolution.xy + 2.0 * gl_FragCoord.xy) / u_LogoResolution.y;
+      pLogo *= u_Resolution.xy;
+      pLogo = (-u_Resolution.xy + 2.0 * pLogo) / u_Resolution.y;
+      //pLogo *= vec2(1, -1) + vec2(0, 1);
       pLogo = pLogo - u_Logo.xy;
       pLogo *= boxLogoScale;
       pLogo *= rot(radians(u_LogoOne.x));
@@ -563,7 +565,7 @@ void main()
       float tt = 1.47;
       logoUV = logoUV * (1. + tt) - vec2(tt*.5);
       
-      vec2 reciprocalLogoResolution = 1. / u_LogoResolution * 2.0;
+      vec2 reciprocalLogoResolution = 1. / u_LogoResolution.xy * 2.0;
       reciprocalLogoResolution = 0.5 - reciprocalLogoResolution;
       vec2 absLogoUV = abs(logoUV - 0.5);
 
@@ -736,7 +738,8 @@ function main()
     editedName: false,
     jpg: false,
     downloadXSize: images[0].width,
-    downloadYSize: images[0].height
+    downloadYSize: images[0].height,
+    logoScaleDownload: 1.0
   }
 
   const downloadUniform = 
@@ -793,7 +796,7 @@ function main()
   });
   
   let downloadScaleX, downloadScaleY;
-  gui.add(downloadUniform, 'downloadScale', 1, 4).onChange( function() 
+  gui.add(downloadUniform, 'downloadScale', 1, 10).onChange( function() 
   {
     setDownloadSize(downloadUniform.downloadXSize, downloadUniform.downloadYSize, downloadUniform.downloadScale); 
   });
@@ -1007,7 +1010,7 @@ function main()
     gl.uniform1f(innerWidthLocation, uniforms.innerWidth);
     gl.uniform4f(logoLocation, uniforms.logoX, uniforms.logoY, uniforms.logoScale, uniforms.logoSoftness);
     gl.uniform4f(logoLocationOne, uniforms.logoOrientation, uniforms.logoNoiseFrequency, uniforms.logoNoiseStrength, (uniforms.logoDummy ? 1. : 0.));
-    gl.uniform2f(logoSizeLocation, uniforms.logoXResolution, uniforms.logoYResolution);
+    gl.uniform4f(logoSizeLocation, uniforms.logoXResolution, uniforms.logoYResolution, uniforms.logoScaleDownload, 1.0);
     gl.uniform3f(brushLocation, uniforms.brushSize, uniforms.brushSoftness, (uniforms.brushErase ? 1. : 0));
 
     // Bind the position buffer so gl.bufferData that will be called
@@ -1106,30 +1109,6 @@ function main()
     window.requestAnimationFrame(render);
   }
 
-  /**
-     * Resize a canvas to match the size its displayed.
-     * @param {HTMLCanvasElement} canvas The canvas to resize.
-     * @param {number} [multiplier] amount to multiply by.
-     *    Pass in window.devicePixelRatio for native pixels.
-     * @param {number} [widthImg] image width.
-     * @param {number} [heightImg] image height.
-     * @return {boolean} true if the canvas was resized.
-     * @memberOf module:webgl-utils
-     */
-  function resizeCanvasToDisplaySizeCustom(canvas, multiplier, widthImg, heightImg) {
-    const ratio = heightImg / widthImg;
-    multiplier = multiplier || 1;
-    const width  = canvas.clientWidth * multiplier | 0;
-    const height = canvas.clientHeight * ratio * multiplier | 0;
-    //console.log(`Width: ${width} Height: ${height} Ratio: ${ratio}`);
-    if (canvas.width !== width ||  canvas.height !== height) {
-      canvas.width  = width;
-      canvas.height = height;
-      return true;
-    }
-    return false;
-  }
-
   function setRectangle(gl, x, y, width, height) 
   {
     var x1 = x;
@@ -1152,7 +1131,6 @@ function main()
   {
     console.log(`Writing ${uniforms.downloadXSize} * ${uniforms.downloadYSize} image`);
     var downloadName = imgNames[0].split('.')[0] + (uniforms.editedName ? "_Edited" : "");
-    drawScene(true, uniforms.downloadXSize, uniforms.downloadYSize);
     drawScene(true, uniforms.downloadXSize, uniforms.downloadYSize);
     let jpg = (uniforms.jpg ? ".jpg" : ".png");
     canvas.toBlob((blob) => 
@@ -1218,6 +1196,7 @@ function main()
     downloadScaleY.setValue(sizeY);
     uniforms.downloadXSize = sizeX;
     uniforms.downloadYSize = sizeY;
+    uniforms.logoScaleDownload = s;
     //console.log(sizeX);
     //console.log(sizeY);
     //return [sizeX, sizeY];
