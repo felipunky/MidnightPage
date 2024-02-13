@@ -2,8 +2,13 @@ import requests
 import json
 import os
 
+directoryPath = os.getcwd() + '\Tools\/'
+
 url = 'https://2f9ed3-3.myshopify.com/admin/api/2024-01/'
-token = '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'
+
+tokenFile = open(directoryPath + "Token.txt", "r")
+token = tokenFile.read()
+print(token)
 
 def getDictFromRequest(request, headers):
     # Send GET request.
@@ -11,7 +16,7 @@ def getDictFromRequest(request, headers):
     # Get JSON
     rawJSON = r.json()
     formattedString = json.dumps(rawJSON, indent=4)
-    print(formattedString)
+    #print(formattedString)
     # Get Dictionary
     jsonObj = json.loads(formattedString)
     return jsonObj
@@ -30,7 +35,7 @@ def getEditedImagesSource(url, productID, token):
     return getEditedImagesSrc
 
 def getJSON(productCategory, token):
-    request = url + 'products.json?'
+    request = url + 'products.json?limit=250'
     headers = {'Content-Type': 'application/json', 'X-Shopify-Access-Token': token}
     jsonObj = getDictFromRequest(request, headers)
     getProducts = jsonObj['products']
@@ -38,23 +43,27 @@ def getJSON(productCategory, token):
     print("Number of products: " + str(len(getProducts)))
     jsonDumpList = []
     for getProduct in getProducts:
-        print("Data type of getProduct: " + str(type(getProduct)))
+        #print("Data type of getProduct: " + str(type(getProduct)))
+        #print("Product: ", getProduct)
         productType = getProduct['product_type']
         print("Product type: ", productType)
         if productType == productCategory:
             title = getProduct['title']
-            #print("Title: " + title)
+            print("Title: " + title)
             getVariants = getProduct['variants']
             #print("Product type: " + productType)
             #print("Variants size: " + str(len(getVariants)))
             availableItems = 0
+            productPrice = 0
             for i in getVariants:
                 if i['inventory_quantity'] > 0:
                     availableItems += 1
+                    productPrice = i['price']
             if availableItems > 0:
                 #print("There are available items!")
                 productID = str(i['product_id'])
                 #print("Product ID: " + productID)
+                print("Price: ", productPrice)
                 getImages = getProduct['images']
                 getImagesSrc = [x['src'] for x in getImages]
                 getEditedImagesSrc = []
@@ -73,6 +82,7 @@ def getJSON(productCategory, token):
                     "title": title,
                     "productType": productType,
                     "productID": productID,
+                    "productPrice": productPrice,
                     "imgMin": getEditedImagesSrc[0],
                     "img": getEditedImagesSrc[1]
                 }
@@ -87,13 +97,14 @@ def getJSON(productCategory, token):
     #print(jsonDumpString)
     return jsonDumpList
 def writeToFile(jsonD, fileName):
-    path = os.getcwd() + '\Tools\/' + fileName
+    path = directoryPath + fileName
     with open(path, 'w') as out_file:
         json.dump(jsonD, out_file, indent=4)
 
 productCategory = "Pulseras"
 fileName = productCategory + ".json"
 jsonD = getJSON(productCategory, token)
+print("Writing to: ", fileName)
 writeToFile(jsonD, fileName)
 
 

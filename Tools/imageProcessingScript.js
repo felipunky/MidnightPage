@@ -69,6 +69,7 @@ uniform vec4 u_Logo;
 uniform vec4 u_LogoOne; 
 uniform vec4 u_LogoResolution;
 uniform vec3 u_Brush;
+uniform int u_Invert;
 
 // we need to declare an output for the fragment shader
 out vec4 outColor;
@@ -302,47 +303,62 @@ float sdEllipse( in vec2 p, in vec2 ab )
     return length(r-p) * sign(p.y-r.y);
 }
 
-// https://www.shadertoy.com/view/ltBSWd
-vec3 HSVtoRGB( in vec3 c )
+/** Start: https://www.shadertoy.com/view/4dKcWK **/
+
+const float EPSILON = 1e-10;
+
+vec3 HUEtoRGB(in float hue)
 {
-    vec3 rgb = clamp( abs(mod(c.x*6.0+vec3(0.0,4.0,2.0),6.0)-3.0)-1.0, 0.0, 1.0 );
-    return c.z * mix( vec3(1.0), rgb, c.y);
+    // Hue [0..1] to RGB [0..1]
+    // See http://www.chilliant.com/rgb2hsv.html
+    vec3 rgb = abs(hue * 6. - vec3(3, 2, 4)) * vec3(1, -1, -1) + vec3(-1, 2, 2);
+    return clamp(rgb, 0., 1.);
 }
 
-vec3 RGBtoHSV(vec3 rgb)
+vec3 RGBtoHCV(in vec3 rgb)
 {
-    // Hue: red = 0/6, yellow = 1/6, green = 2/6,
-    //      cyan = 3/6, blue = 4/6, magenta = 5/6
-    vec3 hsv;
-    float cmax = max(rgb.r, max(rgb.g, rgb.b));
-    float cmin = min(rgb.r, min(rgb.g, rgb.b));
-    
-    hsv.z = cmax; // value
-
-    float chroma = cmax - cmin;
-    {
-        hsv.y = chroma / cmax; // saturation
-
-        //if(cmax == rgb.r)
-        if(rgb.r > rgb.g && rgb.r > rgb.b)
-        {
-            hsv.x = (0.0 + (rgb.g - rgb.b) / chroma) / 6.0; // hue
-        }
-        //else if(cmax == rgb.m_Green)
-        else if(rgb.g > rgb.b)
-        {
-            hsv.x = (2.0 + (rgb.b - rgb.r) / chroma) / 6.0; // hue
-        }
-        else
-        {
-            hsv.x = (4.0 + (rgb.r - rgb.g) / chroma) / 6.0; // hue
-        }
-
-        // Make sure hue is in range [0..1]
-        hsv.x = fract(hsv.x);
-    }
-    return hsv;
+    // RGB [0..1] to Hue-Chroma-Value [0..1]
+    // Based on work by Sam Hocevar and Emil Persson
+    vec4 p = (rgb.g < rgb.b) ? vec4(rgb.bg, -1., 2. / 3.) : vec4(rgb.gb, 0., -1. / 3.);
+    vec4 q = (rgb.r < p.x) ? vec4(p.xyw, rgb.r) : vec4(rgb.r, p.yzx);
+    float c = q.x - min(q.w, q.y);
+    float h = abs((q.w - q.y) / (6. * c + EPSILON) + q.z);
+    return vec3(h, c, q.x);
 }
+
+vec3 HSVtoRGB(in vec3 hsv)
+{
+    // Hue-Saturation-Value [0..1] to RGB [0..1]
+    vec3 rgb = HUEtoRGB(hsv.x);
+    return ((rgb - 1.) * hsv.y + 1.) * hsv.z;
+}
+
+vec3 HSLtoRGB(in vec3 hsl)
+{
+    // Hue-Saturation-Lightness [0..1] to RGB [0..1]
+    vec3 rgb = HUEtoRGB(hsl.x);
+    float c = (1. - abs(2. * hsl.z - 1.)) * hsl.y;
+    return (rgb - 0.5) * c + hsl.z;
+}
+
+vec3 RGBtoHSV(in vec3 rgb)
+{
+    // RGB [0..1] to Hue-Saturation-Value [0..1]
+    vec3 hcv = RGBtoHCV(rgb);
+    float s = hcv.y / (hcv.z + EPSILON);
+    return vec3(hcv.x, s, hcv.z);
+}
+
+vec3 RGBtoHSL(in vec3 rgb)
+{
+    // RGB [0..1] to Hue-Saturation-Lightness [0..1]
+    vec3 hcv = RGBtoHCV(rgb);
+    float z = hcv.z - hcv.y * 0.5;
+    float s = hcv.y / (1. - abs(z * 2. - 1.) + EPSILON);
+    return vec3(hcv.x, s, z);
+}
+
+/** End: https://www.shadertoy.com/view/4dKcWK **/
 
 // Simplex 2D noise
 //
@@ -514,7 +530,7 @@ void main()
       }
       d -= u_RingSize;
     }
-
+    d = (u_Invert == 1 && u_Shape != -1 ? -d : d);
     float s = smoothstep(0., u_Softness, d);
     vec2 uv = v_texCoord;
     vec4 tex = texture(u_Image0, uv);
@@ -595,7 +611,7 @@ function imageIsLoaded(image)
   })
 }
 
-const imgNames = ["IMG_0809.jpeg", "midnightLogo.jpg"];
+const imgNames = ["IMG_1086.JPG", "midnightLogo.jpg"];
 const images = [];
 for (var i = 0; i < imgNames.length; ++i)
 {
@@ -694,6 +710,7 @@ function main()
   var logoLocationOne = gl.getUniformLocation(program, "u_LogoOne");
   var logoSizeLocation = gl.getUniformLocation(program, "u_LogoResolution");
   var brushLocation = gl.getUniformLocation(program, "u_Brush");
+  var invertSDFLocation = gl.getUniformLocation(program, "u_Invert");
 
   const uniforms = 
   {
@@ -703,6 +720,7 @@ function main()
     mouseClick: 0,
     shape: 1,
     size: 1.4,
+    invertSDF: false,
     innerWidth: 0.5,
     angle: 0.0,
     noiseStrength: 0.01,
@@ -773,6 +791,9 @@ function main()
                                Moon: 7, Cross: 8, Trapezoid: 9,
                                RoundedX: 10, Arrow: 11, Ellipse: 12 } ).name("Shape");
   gui.add(uniforms, 'size', 0.1, 2.0, 0.01).name("Size");
+  gui.add(uniforms, 'invertSDF').name("Invert").listen().onChange( function() {
+    invertSDFCheckbox(uniforms.invertSDF);
+  });
   gui.add(uniforms, 'innerWidth', 0.1, 1.0, 0.01).name("Inner Width");
   gui.add(uniforms, "softness", 0.01, 0.5, step ).name("Softness");
   gui.add(uniforms, 'rings', 0, 3).name("Rings");
@@ -1012,6 +1033,7 @@ function main()
     gl.uniform4f(logoLocationOne, uniforms.logoOrientation, uniforms.logoNoiseFrequency, uniforms.logoNoiseStrength, (uniforms.logoDummy ? 1. : 0.));
     gl.uniform4f(logoSizeLocation, uniforms.logoXResolution, uniforms.logoYResolution, uniforms.logoScaleDownload, 1.0);
     gl.uniform3f(brushLocation, uniforms.brushSize, uniforms.brushSoftness, (uniforms.brushErase ? 1. : 0));
+    gl.uniform1i(invertSDFLocation, uniforms.invertSDF ? 1 : 0);
 
     // Bind the position buffer so gl.bufferData that will be called
     // in setRectangle puts data in the position buffer
@@ -1159,6 +1181,11 @@ function main()
        a.click();
     };
   }());
+
+  function invertSDFCheckbox(invert)
+  {
+    invert = !invert;
+  }
 
   function logoCheckbox(logo)
   {

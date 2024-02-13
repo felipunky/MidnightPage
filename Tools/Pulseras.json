@@ -3,6 +3,7 @@
         "title": "Manilla Wayuu Azul",
         "productType": "Pulseras",
         "productID": "7718539493421",
+        "productPrice": "57000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1399_Edited_Lazy.png?v=1706628836",
         "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1399_Edited.png?v=1706628836"
     },
@@ -10,7 +11,24 @@
         "title": "Manilla Wayuu Cafe",
         "productType": "Pulseras",
         "productID": "7718538838061",
+        "productPrice": "57000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1404_Edited_Lazy.png?v=1706628310",
         "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1404_Edited.png?v=1706628311"
+    },
+    {
+        "title": "Pulsera Ojo Turco Azul",
+        "productType": "Pulseras",
+        "productID": "7718532775981",
+        "productPrice": "44480.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1418_Edited_Lazy.png?v=1706627383",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1418_Edited.png?v=1706627383"
+    },
+    {
+        "title": "Set Pulseras Blancas y Negro",
+        "productType": "Pulseras",
+        "productID": "7721388900397",
+        "productPrice": "18800.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1578_Edited_Lazy.png?v=1707096853",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1578_Edited.png?v=1707096853"
     }
 ]
