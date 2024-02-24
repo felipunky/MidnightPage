@@ -563,28 +563,50 @@ async function main()
       x2, y2,
     ]), gl.STATIC_DRAW);
   }
-  canvas.addEventListener("mouseover", function()
+  canvas.addEventListener("mouseover", mouseIn);
+  canvas.addEventListener("touchstart", mouseIn);
+  function mouseIn()
   {
-    //console.log("Mouse down");
     uniforms.mouseClick = 1;
-  });
-  canvas.addEventListener("mouseout", function()
+  }
+  canvas.addEventListener("mouseout", mouseOut);
+  canvas.addEventListener("touchend", mouseOut);
+  function mouseOut()
   {
     //console.log("Mouse up");
     uniforms.mouseClick = 0;
-  });
+  }
 
   canvas.addEventListener("mousemove", event =>
   {
     //if (uniforms.mouseClick == 1)
     {
+      let pixelRatio = window.devicePixelRatio;
+      console.log(pixelRatio);
       let bound = canvas.getBoundingClientRect();
 
-      let x = event.clientX - bound.left - canvas.clientLeft;
-      let y = event.clientY - bound.top - canvas.clientTop;
+      let x = event.clientX*pixelRatio - bound.left*pixelRatio - canvas.clientLeft*pixelRatio;
+      let y = event.clientY*pixelRatio - bound.top*pixelRatio - canvas.clientTop*pixelRatio;
 
       uniforms.mouseX = x;// / gl.canvas.width;
       uniforms.mouseY = gl.canvas.height - y;// / gl.canvas.height;
+      //console.log(`Mouse X: ${uniforms.mouseX} Mouse Y: ${uniforms.mouseY}`);
+    }
+  });
+
+  canvas.addEventListener("touchmove", event =>
+  {
+    if (event.touches.length == 1)
+    {
+      let pixelRatio = window.devicePixelRatio;
+      let touch = event.touches[0];
+      let bound = canvas.getBoundingClientRect();
+
+      let x = touch.clientX*pixelRatio - bound.left*pixelRatio - canvas.clientLeft*pixelRatio;
+      let y = touch.clientY*pixelRatio - bound.top*pixelRatio - canvas.clientTop*pixelRatio;
+
+      uniforms.mouseX = x;// / gl.canvas.width;
+      uniforms.mouseY = (gl.canvas.height - y);// / gl.canvas.height;
       //console.log(`Mouse X: ${uniforms.mouseX} Mouse Y: ${uniforms.mouseY}`);
     }
   });
