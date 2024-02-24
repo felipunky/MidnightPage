@@ -349,7 +349,7 @@ function getSize(multiplier, widthImg, heightImg)
 }
 
 const image = new Image();
-image.src = "/Images/Noise258.png";
+image.src = "Images/Noise258.png";
 
 image.addEventListener("load", (event) =>
 {
