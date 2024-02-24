@@ -47,7 +47,7 @@ def getJSON(productCategory, token):
         #print("Product: ", getProduct)
         productType = getProduct['product_type']
         print("Product type: ", productType)
-        if productType == productCategory:
+        if productType == productCategory[0] or productType == productCategory[1]:
             title = getProduct['title']
             print("Title: " + title)
             getVariants = getProduct['variants']
@@ -67,9 +67,12 @@ def getJSON(productCategory, token):
                 getImages = getProduct['images']
                 getImagesSrc = [x['src'] for x in getImages]
                 getEditedImagesSrc = []
+                getNonEditedImagesSrc = []
                 for i in getImagesSrc:
                     if "_Edited" in i:
                         getEditedImagesSrc.append(i)
+                    else:
+                        getNonEditedImagesSrc.append(i)
                 assert(len(getEditedImagesSrc) == 2)
                 if len(getEditedImagesSrc) == 2:
                     tempEditedImagesSrc = getEditedImagesSrc[0]
@@ -84,7 +87,8 @@ def getJSON(productCategory, token):
                     "productID": productID,
                     "productPrice": productPrice,
                     "imgMin": getEditedImagesSrc[0],
-                    "img": getEditedImagesSrc[1]
+                    "img": getEditedImagesSrc[1],
+                    "images": getNonEditedImagesSrc
                 }
                 jsonDumpList.append(jsonObject)
                 #print(getEditedImagesSrc)
@@ -101,10 +105,14 @@ def writeToFile(jsonD, fileName):
     with open(path, 'w') as out_file:
         json.dump(jsonD, out_file, indent=4)
 
-productCategory = "Pulseras"
-fileName = productCategory + ".json"
-jsonD = getJSON(productCategory, token)
-print("Writing to: ", fileName)
-writeToFile(jsonD, fileName)
+typeOfProduct = [["Aretes", "Candongas"], ["Earcuffs", ""], ["Anillos", ""], \
+                 ["Collares", ""], ["Pulseras", ""], ["Tobilleras", ""]]
+
+for productCategory in typeOfProduct:
+    #productCategory = typeOfProduct[5]
+    fileName = productCategory[0] + ".json"
+    jsonD = getJSON(productCategory, token)
+    print("Writing to: ", fileName)
+    writeToFile(jsonD, fileName)
 
 

@@ -3,42 +3,182 @@
         "title": "Earcuff Chiquito",
         "productType": "Earcuffs",
         "productID": "7684874076205",
+        "productPrice": "15000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1070_Edited_Lazy.png?v=1706640746",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1070_Edited.png?v=1706640746"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1070_Edited.png?v=1706640746",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1069.jpg?v=1705978955",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1071.jpg?v=1705978954"
+        ]
+    },
+    {
+        "title": "Earcuff Chiquito Doble Plateado",
+        "productType": "Earcuffs",
+        "productID": "7726452178989",
+        "productPrice": "13000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1304_Edited_Lazy.png?v=1707847091",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1304_Edited.png?v=1707847090",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1298.png?v=1707847090",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1305.png?v=1707847090"
+        ]
     },
     {
         "title": "Earcuff Chiquito Plateado",
         "productType": "Earcuffs",
-        "productID": "7718528319533",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1547_Edited_Lazy.png?v=1706624863",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1547_Edited.png?v=1706624863"
+        "productID": "7726455390253",
+        "productPrice": "20000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1291_Edited_Lazy.png?v=1707850179",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1291_Edited.png?v=1707850179",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1294.png?v=1707850178",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1292.png?v=1707850179"
+        ]
     },
     {
         "title": "Earcuff Chunky",
         "productType": "Earcuffs",
         "productID": "7684873748525",
+        "productPrice": "15000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0863_Edited_Lazy.jpg?v=1706641918",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0863_Edited.jpg?v=1706641919"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0863_Edited.jpg?v=1706641919",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0861.jpg?v=1705978647",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0862.jpg?v=1705978647"
+        ]
+    },
+    {
+        "title": "Earcuff Circulos Dorado",
+        "productType": "Earcuffs",
+        "productID": "7726437695533",
+        "productPrice": "15000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/EarcuffDorado5_4_Edited_Lazy.png?v=1707840439",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/EarcuffDorado5_4_Edited.png?v=1707840439",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/Earcuffdorado53.png?v=1707840372",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/Earcuffdorado52.png?v=1707840371"
+        ]
+    },
+    {
+        "title": "Earcuff con Arete Plateado",
+        "productType": "Earcuffs",
+        "productID": "7721417932845",
+        "productPrice": "20480.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1470_Edited_Lazy.png?v=1707107339",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1470_Edited.png?v=1707107339",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1471.png?v=1707107339",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1469.png?v=1707107338"
+        ]
+    },
+    {
+        "title": "Earcuff de Cadena",
+        "productType": "Earcuffs",
+        "productID": "7721380118573",
+        "productPrice": "26000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1581_Edited_Lazy.png?v=1707091562",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1581_Edited.png?v=1707091563",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1580.png?v=1707091563",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1582.png?v=1707091563"
+        ]
+    },
+    {
+        "title": "Earcuff Doble Union Plateado",
+        "productType": "Earcuffs",
+        "productID": "7726455160877",
+        "productPrice": "14000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1207_Edited_Lazy.png?v=1707849855",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1207_Edited.png?v=1707849855",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1205.png?v=1707849855",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1206.png?v=1707849855"
+        ]
     },
     {
         "title": "Earcuff Dorado",
         "productType": "Earcuffs",
         "productID": "7684873879597",
+        "productPrice": "15000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0856_Edited_Lazy.jpg?v=1706641052",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0856_Edited.jpg?v=1706641052"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0856_Edited.jpg?v=1706641052",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0854.jpg?v=1705978778",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0855.jpg?v=1705978778"
+        ]
     },
     {
         "title": "Earcuff Dorado Medialuna",
         "productType": "Earcuffs",
         "productID": "7718520291373",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1550_Edited_Lazy.png?v=1706621460",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1550_Edited.png?v=1706621460"
+        "productPrice": "28880.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1550_Edited_Lazy.png?v=1707954000",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1550_Edited.png?v=1707953987",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1551.jpg?v=1707953914",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1549.jpg?v=1707953955",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1550.jpg?v=1706621461"
+        ]
+    },
+    {
+        "title": "Earcuff Escalera Dorado",
+        "productType": "Earcuffs",
+        "productID": "7721393422381",
+        "productPrice": "22880.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1523_Edited_Lazy.png?v=1707098751",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1523_Edited.png?v=1707098752",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1522.png?v=1707098752",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1524.png?v=1707098752"
+        ]
+    },
+    {
+        "title": "Earcuff Peque\u00f1o Dorado",
+        "productType": "Earcuffs",
+        "productID": "7721412493357",
+        "productPrice": "22880.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1550_Edited_Lazy_bb8548d3-bd46-4798-9c1e-f265fcf36960.png?v=1707106566",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1550_Edited_e7dd11e4-3cef-4bc1-a0b4-1ac2fa5e92a9.png?v=1707106566",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1551.png?v=1707106567",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1549.png?v=1707106566"
+        ]
+    },
+    {
+        "title": "Earcuff Peque\u00f1o Plateado",
+        "productType": "Earcuffs",
+        "productID": "7718528319533",
+        "productPrice": "28880.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1547_Edited_Lazy.png?v=1707106921",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1547_Edited.png?v=1707106921",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1546.png?v=1707106921",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1548.png?v=1707106921"
+        ]
     },
     {
         "title": "Earcuff Tres Aros",
         "productType": "Earcuffs",
         "productID": "7718529171501",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1556_Edited_Lazy.png?v=1706625460",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1556_Edited.png?v=1706625461"
+        "productPrice": "24900.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1556_Edited_Lazy.png?v=1707952934",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1556_Edited.png?v=1707952921",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1557.jpg?v=1707952869",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1555.jpg?v=1707952887",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1556.jpg?v=1706625462"
+        ]
+    },
+    {
+        "title": "Earcuff Triple Plateado",
+        "productType": "Earcuffs",
+        "productID": "7726455783469",
+        "productPrice": "20000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1312_Edited_Lazy.png?v=1707850622",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1312_Edited.png?v=1707850622",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1313.png?v=1707850622",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1307.png?v=1707850622"
+        ]
     }
 ]

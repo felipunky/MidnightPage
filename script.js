@@ -1,30 +1,55 @@
-// async function waitUntilElementExits(domkey,domquery,maxtime){
-//     const delay = (ms) => new Promise(res => setTimeout(res, ms));
-//     let elm;
-//     for(let i=0; i<maxtime; i=i+200){
-//         await delay(200);
-//         elm = document.getElementsByClassName(domquery);
-//         if( elm.length > 0 ) break;
-//     }
-//     return elm;
-// }
-// // usage
-// async function test()
-// {
-//     const e = await waitUntilElementExits('has-image', 5000);
-//     console.log(e);
-// }
-// test();
+function ProductNames(className)
+{
+    let elements = document.getElementsByClassName(className);
+    //console.log(elements.length);
+    for (var i = 0; i < elements.length; ++i)
+    {
+        let text = elements[i].getAttribute("alt");
+        if (text == "Dummy 0.0")
+        {
+        continue;
+        }
+        let textSplit = text.split(' ');
+        let numberWhole = textSplit[textSplit.length-1];
+        let numberSplit = numberWhole.split('.');
+        let number = numberSplit[0];
+        let numberValue = "";
+        for (var j = 0; j < number.length; ++j)
+        {
+        if (j == 2)
+        {
+            numberValue += ",";
+        }
+        numberValue += number[j];
+        }
+        let textValue = "";
+        for (var j = 0; j < textSplit.length-1; ++j)
+        {
+        textValue += textSplit[j] + " ";
+        }
+        const newContentText = document.createElement("h3");
+        newContentText.innerHTML = textValue;
+        newContentText.setAttribute("class", "item-selected-text");
+        elements[i].appendChild(newContentText);
+
+        const newContentPrice = document.createElement("div");
+        newContentPrice.innerHTML = "$" + numberValue;
+        newContentPrice.setAttribute("class", "item-selected-price");
+        elements[i].appendChild(newContentPrice);
+    }
+}
 function GetProductID(className)
 {
     var el = document.getElementsByClassName(className);
     for(var i = 0; i < el.length; ++i)
     {
-        el[i].addEventListener("click", storeValue)
+        el[i].addEventListener("click", storeValue);
         function storeValue()
         {
             let attribute = this.getAttribute("alt");
-            localStorage.setItem('productID', attribute)
+            localStorage.setItem('productID', attribute);
+            let imagesAttribute = this.parentElement.getAttribute("id");
+            localStorage.setItem('productImages', imagesAttribute);
         };
     }
 }
@@ -62,51 +87,12 @@ function Shopify(productID, productComponent)
     async function buyInit() 
     {
         await ShopifyBuyInit();
-        await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-        await Logger();
+        //await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+        //await Logger();
     }
     function Logger()
     {
-        console.log("Hey");
-        // let elm = document.getElementById("product-component");//document.getElementsByClassName('shopify-buy__carousel');
-        // var elements = document.querySelector("iframe");
-        // var ele = elements.document.getElementsByClassName("shopify-buy__carousel");
-        // console.log(ele.length);
-        var iframe = document.querySelector("iframe");
-        var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-        if (innerDoc)
-        {
-            var carousel = innerDoc.getElementsByClassName("shopify-buy__carousel")[0];
-            console.log(carousel);
-            var carouselItems = carousel.getElementsByClassName("shopify-buy__carousel-item");
-            let counter = 0;
-            let ids = [];
-            for (var i = 0; i < carouselItems.length; ++i)
-            {
-                let url = carouselItems[i].getAttribute("href").toString();
-                console.log("URL: " + url);
-                if (url.includes("_Edited"))
-                {
-                    //carouselItems[i]/*.style.display = "none";//*/.remove();
-                    //ids.push(i);
-                    console.log("Found: " + url);
-                    counter++;
-                }
-                else
-                {
-                    ids.push(url);
-                }
-            }
-            console.log("Counter: " + counter);
-            
-            for(var i = 0; i < ids.length; ++i)
-            {
-                console.log("Ids: " + ids[i]);
-            }
-
-            let car = innerDoc.getElementsByClassName("shopify-buy__product-img-wrapper")[0];
-            car.remove();
-        }
+        //console.log("Hey");
     }
     function ShopifyBuyInit()
     {
@@ -162,14 +148,14 @@ function Shopify(productID, productComponent)
                         "layout": "horizontal",
                         "contents": {
                         "img": false,
-                        "imgWithCarousel": true,
+                        "imgWithCarousel": false,
                         "button": false,
                         "buttonWithQuantity": true,
                         "description": true
                         },
                         "width": "100%",
                         "text": {
-                        "button": "Add to cart"
+                        "button": "Agregar al carrito"
                         }
                     },
                     "productSet": {
@@ -184,9 +170,9 @@ function Shopify(productID, productComponent)
                     "modalProduct": {
                         "contents": {
                         "img": false,
-                        "imgWithCarousel": true,
+                        "imgWithCarousel": false,
                         "button": false,
-                        "buttonWithQuantity": true
+                        "buttonWithQuantity": false
                         },
                         "styles": {
                         "product": {
@@ -234,7 +220,7 @@ function Shopify(productID, productComponent)
                         }
                         },
                         "text": {
-                        "button": "Add to cart"
+                        "button": "Agregar al carrito"
                         }
                     },
                     "option": {},

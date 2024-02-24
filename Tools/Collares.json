@@ -1,23 +1,76 @@
 [
     {
-        "title": "Collar Corazón Dorado",
+        "title": "Cadena Dorada Serpiente",
+        "productType": "Collares",
+        "productID": "7721383067693",
+        "productPrice": "35000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1519_Edited_Lazy.png?v=1707093218",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1519_Edited.png?v=1707093218",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1518.png?v=1707093219",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1521.png?v=1707093218"
+        ]
+    },
+    {
+        "title": "Choker Dorado",
+        "productType": "Collares",
+        "productID": "7727148859437",
+        "productPrice": "44480.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1452_Edited_Lazy.png?v=1707947444",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1452_Edited.png?v=1707947443",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1452.jpg?v=1707947467",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1454.png?v=1707947444"
+        ]
+    },
+    {
+        "title": "Choker Plateado",
+        "productType": "Collares",
+        "productID": "7727150989357",
+        "productPrice": "44480.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1455_Edited_Lazy.png?v=1707947584",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1455_Edited.png?v=1707947584",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1456.jpg?v=1707947584",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1456.png?v=1707947585"
+        ]
+    },
+    {
+        "title": "Collar Coraz\u00f3n Dorado",
         "productType": "Collares",
         "productID": "7718541819949",
+        "productPrice": "32000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1369_Edited_Lazy.png?v=1706630326",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1369_Edited.png?v=1706630327"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1369_Edited.png?v=1706630327",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1372.jpg?v=1706630327",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1367.jpg?v=1706630327",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1369.jpg?v=1706630326"
+        ]
     },
     {
         "title": "Collar Ojo Turco",
         "productType": "Collares",
         "productID": "7718541557805",
+        "productPrice": "14000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1375_Edited_Lazy.png?v=1706630261",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1375_Edited.png?v=1706630262"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1375_Edited.png?v=1706630262",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1379.jpg?v=1707951842",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1381.jpg?v=1707951854",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1375.jpg?v=1707951866"
+        ]
     },
     {
-        "title": "Collar Ojo Turco Azul",
+        "title": "Collar Serpiente Corazon",
         "productType": "Collares",
-        "productID": "7718532775981",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1418_Edited_Lazy.png?v=1706627383",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1418_Edited.png?v=1706627383"
+        "productID": "7727176777773",
+        "productPrice": "30000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1573_Edited_Lazy.png?v=1707949669",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1573_Edited.png?v=1707949668",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1573.png?v=1707949668",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1574.png?v=1707949669"
+        ]
     }
 ]

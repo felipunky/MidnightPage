@@ -1,0 +1,38 @@
+[
+    {
+        "title": "Anillo Cuadrado Doble Dorado",
+        "productType": "Anillos",
+        "productID": "7721408823341",
+        "productPrice": "28880.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1531_Edited_Lazy.png?v=1707106203",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1531_Edited.png?v=1707106204",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1533.png?v=1707106204",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1532.png?v=1707106204"
+        ]
+    },
+    {
+        "title": "Anillo Cuadrado Doble Plateado",
+        "productType": "Anillos",
+        "productID": "7721408692269",
+        "productPrice": "28880.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1528_Edited_Lazy.png?v=1707106123",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1528_Edited.png?v=1707106124",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1530.png?v=1707106124",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1529.png?v=1707106124"
+        ]
+    },
+    {
+        "title": "Anillo Flor Dorado",
+        "productType": "Anillos",
+        "productID": "7726438875181",
+        "productPrice": "40000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/AnilloFlor_4_Edited_Lazy.png?v=1707841030",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/AnilloFlor_4_Edited.png?v=1707841030",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/Anilloflor3.png?v=1707841030",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/anilloflor1.png?v=1707841031"
+        ]
+    }
+]

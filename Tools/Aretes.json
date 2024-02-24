@@ -1,163 +1,432 @@
 [
     {
+        "title": "Aretes Conchas Dorados",
+        "productType": "Aretes",
+        "productID": "7721404760109",
+        "productPrice": "28880.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1488_Edited_Lazy.png?v=1707105148",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1488_Edited.png?v=1707105148",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1489.png?v=1707105148",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1487.png?v=1707105148"
+        ]
+    },
+    {
         "title": "Aretes Conchas Plateados",
         "productType": "Aretes",
         "productID": "7718515540013",
+        "productPrice": "28880.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1334_Edited_Lazy.png?v=1706619011",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1334_Edited.png?v=1706619012"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1334_Edited.png?v=1706619012",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1334.jpg?v=1706619012",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1335.jpg?v=1706619011",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1336.jpg?v=1706619012"
+        ]
     },
     {
         "title": "Aretes Estrella Negra",
         "productType": "Aretes",
         "productID": "7718517571629",
+        "productPrice": "24900.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1348_Edited_Lazy.png?v=1706620098",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1348_Edited_Lazy_23d68443-1cdf-4e61-8812-ac03e98c5ccf.png?v=1706656409"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1348_Edited_Lazy_23d68443-1cdf-4e61-8812-ac03e98c5ccf.png?v=1706656409",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1349.jpg?v=1707952027",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1350.jpg?v=1707952041",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1348.jpg?v=1707952052"
+        ]
     },
     {
-        "title": "Aretes Flor Dorados",
+        "title": "Aretes Mythilus Dorados",
         "productType": "Aretes",
-        "productID": "7718484246573",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1466_Edited_Lazy.png?v=1706618567",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1466_Edited.png?v=1706618567"
+        "productID": "7721351774253",
+        "productPrice": "35000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1351_Edited_Lazy.png?v=1707086655",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1351_Edited.png?v=1707086655",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1352.png?v=1707086655",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1355.png?v=1707086654"
+        ]
     },
     {
-        "title": "Aretes Mythilus",
+        "title": "Aretes Mythilus Plateados",
         "productType": "Aretes",
         "productID": "7718516719661",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1343_Edited_Lazy.png?v=1706619461",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1343_Edited.png?v=1706619462"
+        "productPrice": "35000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1343_Edited_Lazy.png?v=1707952766",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1343_Edited.png?v=1707952757",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1341.jpg?v=1707952731",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1343.jpg?v=1707952742",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1345.jpg?v=1707952778"
+        ]
     },
     {
-        "title": "Aretes Semi Drops",
+        "title": "Aretes Redondos Rose Gold",
         "productType": "Aretes",
-        "productID": "7684858642477",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0887_Edited_Lazy.png?v=1706641324",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0887_Edited.png?v=1706641324"
+        "productID": "7726446215213",
+        "productPrice": "29000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/AretesRedondosRoseGold_Edited_Lazy.png?v=1707844179",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/AretesRedondosRoseGold_Edited.png?v=1707844178",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/Aretesredondosrosegold2.png?v=1707844179",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/Aretesredondosrosegold3.png?v=1707844179"
+        ]
+    },
+    {
+        "title": "Candonga Estrella Azules",
+        "productType": "Aretes",
+        "productID": "7721384050733",
+        "productPrice": "32000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1482_Edited_Lazy.png?v=1707093750",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1482_Edited.png?v=1707093751",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1483.png?v=1707093751",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1481.png?v=1707093751"
+        ]
     },
     {
         "title": "Candongas Arco Iris",
         "productType": "Candongas",
         "productID": "7718526058541",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1571_Edited_Lazy.png?v=1706623663",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1571_Edited.png?v=1706623663"
+        "productPrice": "32000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1571_Edited_Lazy.png?v=1707088254",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1571_Edited.png?v=1707088255",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1572.png?v=1707088254",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1570.png?v=1707088254"
+        ]
     },
     {
         "title": "Candongas Aros",
         "productType": "Candongas",
         "productID": "7718531399725",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1356_Edited_Lazy.png?v=1706626296",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1356_Edited.png?v=1706626298"
+        "productPrice": "26000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1356_Edited_Lazy.png?v=1707089024",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1356_Edited.png?v=1707089024",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1357.png?v=1707089024",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1360.png?v=1707089024"
+        ]
     },
     {
         "title": "Candongas Blancas Azules",
         "productType": "Candongas",
         "productID": "7718526976045",
+        "productPrice": "32000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1559_Edited_Lazy.png?v=1706624041",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1559_Edited.png?v=1706624041"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1559_Edited.png?v=1706624041",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1560.jpg?v=1706624040",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1558.jpg?v=1706624040",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1559.jpg?v=1706624041"
+        ]
     },
     {
         "title": "Candongas Coil",
         "productType": "Candongas",
         "productID": "7684868112429",
+        "productPrice": "30000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1056_Edited_Lazy.png?v=1706641382",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1056_Edited.png?v=1706641383"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1056_Edited.png?v=1706641383",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1053.jpg?v=1705976308",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1055.jpg?v=1705976308"
+        ]
     },
     {
-        "title": "Candongas Coral Doradas",
+        "title": "Candongas Cuadradas Doradas",
         "productType": "Candongas",
-        "productID": "7718540279853",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1338_Edited_Lazy.png?v=1706629280",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1338_Edited.png?v=1706629280"
+        "productID": "7721405644845",
+        "productPrice": "50000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1534_Edited_Lazy.png?v=1707105530",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1534_Edited.png?v=1707105531",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1536.png?v=1707105531",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1535.png?v=1707105531"
+        ]
     },
     {
-        "title": "Candongas Coraz\u00f3n",
-        "productType": "Aretes",
-        "productID": "7684873420845",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1082_Edited_Lazy.png?v=1706641425",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1082_Edited.png?v=1706641425"
-    },
-    {
-        "title": "Candongas Cuadradas",
+        "title": "Candongas Cuadradas Plateadas",
         "productType": "Candongas",
         "productID": "7684860772397",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0925_Edited_Lazy.jpg?v=1706641480",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0925_Edited.jpg?v=1706641480"
+        "productPrice": "35000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1196_1__Edited_Lazy.png?v=1707834304",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1196_1__Edited.png?v=1707834304",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1198.png?v=1707834305",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1197_1.png?v=1707834304"
+        ]
     },
     {
-        "title": "Candongas Doradas",
+        "title": "Candongas Doradas Chiquitas",
         "productType": "Candongas",
-        "productID": "7684878598189",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0929_Edited_Lazy.jpg?v=1706641539",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0929_Edited.jpg?v=1706641540"
+        "productID": "7726444412973",
+        "productPrice": "41070.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0904_Edited_Lazy.png?v=1707843817",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0904_Edited.png?v=1707843818",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0905_1.jpg?v=1707843837",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0904.jpg?v=1707843850"
+        ]
     },
     {
         "title": "Candongas Dorado y Negras",
         "productType": "Candongas",
         "productID": "7718541066285",
+        "productPrice": "32000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1394_Edited_Lazy.png?v=1706629824",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1394_Edited.png?v=1706629824"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1394_Edited.png?v=1706629824",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1391.png?v=1706629823",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1392.png?v=1706629824",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1394.png?v=1706629824"
+        ]
+    },
+    {
+        "title": "Candongas Flor",
+        "productType": "Candongas",
+        "productID": "7727138439213",
+        "productPrice": "32000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1540_Edited_Lazy.png?v=1707946165",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1540_Edited.png?v=1707946165",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1541.png?v=1707946165",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1542.png?v=1707946165"
+        ]
     },
     {
         "title": "Candongas Mandala Azules",
         "productType": "Candongas",
         "productID": "7718522814509",
+        "productPrice": "32000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1321_Edited_Lazy.png?v=1706622681",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1321_Edited.png?v=1706622681"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1321_Edited.png?v=1706622681",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1323.jpg?v=1707952380",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1316.jpg?v=1707952392",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1321.jpg?v=1707952407"
+        ]
     },
     {
         "title": "Candongas Mandala Dorado Negro",
         "productType": "Candongas",
         "productID": "7718518554669",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1561_Edited_Lazy.png?v=1706620760",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1561_Edited.png?v=1706620760"
+        "productPrice": "32000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1561_Edited_Lazy.png?v=1707952527",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1561_Edited.png?v=1707952515",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1562.jpg?v=1707952547",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1563.png?v=1707952634",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1561.jpg?v=1707952648"
+        ]
     },
     {
         "title": "Candongas Mandala Estrellas",
         "productType": "Candongas",
         "productID": "7718521307181",
+        "productPrice": "32000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1568_Edited_Lazy.png?v=1706622043",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1568_Edited.png?v=1706622044"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1568_Edited.png?v=1706622044",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1569.jpg?v=1707951943",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1567.jpg?v=1707951959",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1568.jpg?v=1707951971"
+        ]
+    },
+    {
+        "title": "Candongas Moebius Plateadas",
+        "productType": "Candongas",
+        "productID": "7726453293101",
+        "productPrice": "36000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1203_Edited_Lazy.png?v=1707848276",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1203_Edited.png?v=1707848276",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/NewProject.png?v=1707849485",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1202_1.png?v=1707849529"
+        ]
+    },
+    {
+        "title": "Candongas Negras Aguamarina Doradas",
+        "productType": "Aretes",
+        "productID": "7721385295917",
+        "productPrice": "32000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1492_Edited_Lazy.png?v=1707094820",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1492_Edited.png?v=1707094820",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1494.png?v=1707094820",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1493.png?v=1707094820"
+        ]
+    },
+    {
+        "title": "Candongas Negras Doradas Radiales",
+        "productType": "Candongas",
+        "productID": "7721381330989",
+        "productPrice": "32000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1537_Edited_Lazy.png?v=1707092350",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1537_Edited.png?v=1707092349",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1538.png?v=1707092349",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1539.png?v=1707092350"
+        ]
+    },
+    {
+        "title": "Candongas Peque\u00f1as Doradas",
+        "productType": "Candongas",
+        "productID": "7684878598189",
+        "productPrice": "31720.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0929_Edited_Lazy.jpg?v=1706641539",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0929_Edited.jpg?v=1706641540",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0894.jpg?v=1706019034",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0895.jpg?v=1707843436"
+        ]
+    },
+    {
+        "title": "Candongas Plateadas Abstractas",
+        "productType": "Candongas",
+        "productID": "7726450540589",
+        "productPrice": "28000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1086_Edited_Lazy.png?v=1707846256",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1086_Edited.png?v=1707846255",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1084.png?v=1707846255",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1085.jpg?v=1707846276"
+        ]
+    },
+    {
+        "title": "Candongas Plateadas Peque\u00f1as",
+        "productType": "Candongas",
+        "productID": "7721091792941",
+        "productPrice": "18800.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/e2a75983-20f1-496f-9b05-56ab262f72ed_Edited_Lazy.png?v=1707868716",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/e2a75983-20f1-496f-9b05-56ab262f72ed_Edited.png?v=1707868717",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1509.png?v=1707868731",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1507.jpg?v=1707868744"
+        ]
+    },
+    {
+        "title": "Candongas Radiales Blanco con Dorado",
+        "productType": "Aretes",
+        "productID": "7721382412333",
+        "productPrice": "32000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1544_Edited_Lazy.png?v=1707092885",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1544_Edited.png?v=1707092885",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1543.png?v=1707092884",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1545.png?v=1707092885"
+        ]
     },
     {
         "title": "Candongas Radiales Doradas",
         "productType": "Candongas",
         "productID": "7718527270957",
+        "productPrice": "32000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1564_Edited_Lazy.png?v=1706624290",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1564_Edited.png?v=1706624291"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1564_Edited.png?v=1706624291",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1564.jpg?v=1707951703",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1565.jpg?v=1707951716",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1566.jpg?v=1707951737"
+        ]
+    },
+    {
+        "title": "Candongas Rojas Doradas",
+        "productType": "Candongas",
+        "productID": "7721390112813",
+        "productPrice": "32000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1362_Edited_Lazy.png?v=1707097446",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1362_Edited.png?v=1707097447",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1361.png?v=1707097446",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1438_1.png?v=1707097446"
+        ]
     },
     {
         "title": "Candongas Rose Gold",
         "productType": "Candongas",
         "productID": "7684860641325",
+        "productPrice": "25000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0853_Edited_Lazy.jpg?v=1706641785",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0853_Edited.jpg?v=1706641785"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0853_Edited.jpg?v=1706641785",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0849.jpg?v=1705974989",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0850.jpg?v=1705974990"
+        ]
     },
     {
         "title": "Candongas Yaruro",
         "productType": "Candongas",
         "productID": "7685275025453",
-        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0860_Edited_Lazy.png?v=1706641855",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0860_Edited.png?v=1706641855"
+        "productPrice": "35000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0860_Edited_Lazy.png?v=1707835951",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0860_Edited.png?v=1707835950",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0857.jpg?v=1706017516",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_0858.jpg?v=1706017517"
+        ]
     },
     {
         "title": "Drops Dorados Grandes",
         "productType": "Aretes",
         "productID": "7684873289773",
+        "productPrice": "35000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1076_Edited_Lazy.png?v=1706640506",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1076_Edited.png?v=1706640507"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1076_Edited.png?v=1706640507",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1075.jpg?v=1705978218",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1077.jpg?v=1705978218"
+        ]
     },
     {
         "title": "Drops Dorados Medianos",
         "productType": "Aretes",
         "productID": "7718519373869",
+        "productPrice": "26000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1511_Edited_Lazy.png?v=1706621199",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1511_Edited.png?v=1706621200"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1511_Edited.png?v=1706621200",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1512.jpg?v=1706621200",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1510.jpg?v=1706621200",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1511.jpg?v=1706621200"
+        ]
     },
     {
-        "title": "Hoops Grandes",
+        "title": "Earcuff Escalera Plateado",
+        "productType": "Aretes",
+        "productID": "7721404661805",
+        "productPrice": "22880.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1526_Edited_Lazy.png?v=1707104768",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1526_Edited.png?v=1707104769",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1527.png?v=1707104768",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1525.png?v=1707104769"
+        ]
+    },
+    {
+        "title": "Hoops Grandes Dorados",
         "productType": "Candongas",
         "productID": "7684861820973",
+        "productPrice": "35000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1040_Edited_Lazy.png?v=1706641207",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1040_Edited.png?v=1706641207"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1040_Edited.png?v=1706641207",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1036.jpg?v=1705975891",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1038.jpg?v=1705975891"
+        ]
+    },
+    {
+        "title": "Hoops Grandes Plateados",
+        "productType": "Candongas",
+        "productID": "7726432583725",
+        "productPrice": "35000.00",
+        "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1065_Edited_Lazy.png?v=1707839803",
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1065_Edited.png?v=1707839802",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1067.png?v=1707839802",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1066.png?v=1707839803"
+        ]
     }
 ]

@@ -60,70 +60,36 @@
 
     <div class="container text-center">
       <div class="row">
-        <div id="carouselExampleDark" class="carousel carousel-dark slide">
-          <div class="carousel-indicators">
-          </div>
-          <div class="carousel-inner">
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+        <div class="col-sm-8 item-selected" alt="Tobillera Ojo Turco 28880.00">
+            <a href="item_1.html" id="https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1576.png?v=1707094300,https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1575_1.jpg?v=1707920541,">
+                <img
+                    data-src="https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1575_Edited.png?v=1707094300"
+                    src="https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1575_Edited_Lazy.png?v=1707094300"
+                    loading="lazy"
+                    alt="7721384706093"
+                    class="lazyload img-fluid lazy"
+                    width="1008"
+                    height="1008"
+                />
+            </a>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4" id='product-component'>
-          <script type="text/javascript">
-            var getProductID = localStorage.getItem('productID');
-            Shopify(getProductID, "product-component");
-            var getImages = localStorage.getItem('productImages');
-            let images = getImages.split(',');
-            //console.log(images);
-            let carousel = document.getElementsByClassName("carousel-inner")[0];
-            let carouselIndicators = document.getElementsByClassName("carousel-indicators")[0];
-            //console.log(carousel);
-            for (var i = 0; i < images.length; ++i)
-            {
-              if (images[i] === "")
-              {
-                continue;
-              }
-              let carouselIndicatorItem = document.createElement("button");
-              carouselIndicatorItem.setAttribute("type", "button");
-              carouselIndicatorItem.setAttribute("data-bs-target", "#carouselExampleDark");
-              carouselIndicatorItem.setAttribute("data-bs-slide-to", i.toString());
-              var carouselItemClass = "carousel-item";
-              if (i == 0)
-              {
-                carouselIndicatorItem.setAttribute("class", "active");
-                carouselIndicatorItem.setAttribute("aria-current", "true");
-                carouselItemClass = "carousel-item active";
-                //class="active" aria-current="true"
-              }
-              carouselIndicatorItem.setAttribute("aria-label", "Slide " + (1+i).toString());
-              carouselIndicators.appendChild(carouselIndicatorItem);
-
-              let carouselItem = document.createElement("div");
-              var carouselItemClass = i === 0 ? "carousel-item active" : "carousel-item";
-              carouselItem.setAttribute("class", carouselItemClass);
-              let image = new Image();
-              image.src = images[i];
-              image.className = "d-block w-100";
-              image.alt = "...";
-              //console.log(image);
-              carouselItem.appendChild(image);
-              carousel.appendChild(carouselItem);
-            }
-          </script>
+        <div class="col-sm-4 item-selected" alt="Dummy 0.0">
+            <a href="#" id="None,None,"> <img data-src="Images/Logo.png" src="Images/Logo_Lazy.png" loading="lazy" alt="12456" class="lazyload img-fluid lazy" width="1008" height="1008" /> </a>
         </div>
-        <div class="col-sm-8">
-        </div>
-      </div>
     </div>
+    </div>
+
+    <div class="container text-center">
+        <div class="row">
+          <div class="col-sm-8" id='product-component-1705991910589'>
+            <script type="text/javascript">
+              Shopify(12345);
+              GetProductID('lazyload');
+              ProductNames('item-selected');
+            </script>
+          </div>
+        </div>
+      </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

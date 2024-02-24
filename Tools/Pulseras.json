@@ -5,7 +5,12 @@
         "productID": "7718539493421",
         "productPrice": "57000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1399_Edited_Lazy.png?v=1706628836",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1399_Edited.png?v=1706628836"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1399_Edited.png?v=1706628836",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1398.png?v=1706628836",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1399.png?v=1706628836",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1396.png?v=1706628837"
+        ]
     },
     {
         "title": "Manilla Wayuu Cafe",
@@ -13,7 +18,12 @@
         "productID": "7718538838061",
         "productPrice": "57000.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1404_Edited_Lazy.png?v=1706628310",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1404_Edited.png?v=1706628311"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1404_Edited.png?v=1706628311",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1332.jpg?v=1706628311",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1402.png?v=1706628310",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1404.png?v=1706628311"
+        ]
     },
     {
         "title": "Pulsera Ojo Turco Azul",
@@ -21,7 +31,12 @@
         "productID": "7718532775981",
         "productPrice": "44480.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1418_Edited_Lazy.png?v=1706627383",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1418_Edited.png?v=1706627383"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1418_Edited.png?v=1706627383",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1416.png?v=1706627383",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1417.png?v=1706627384",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1418.png?v=1706627384"
+        ]
     },
     {
         "title": "Set Pulseras Blancas y Negro",
@@ -29,6 +44,10 @@
         "productID": "7721388900397",
         "productPrice": "18800.00",
         "imgMin": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1578_Edited_Lazy.png?v=1707096853",
-        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1578_Edited.png?v=1707096853"
+        "img": "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1578_Edited.png?v=1707096853",
+        "images": [
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1579.png?v=1707096854",
+            "https://cdn.shopify.com/s/files/1/0616/4794/5773/files/IMG_1577.png?v=1707096854"
+        ]
     }
 ]

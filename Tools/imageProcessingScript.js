@@ -595,7 +595,7 @@ void main()
       float sLogo = smoothstep(0., u_Logo.w, dLogo);
       // Blend logo.
       {
-        col = mix(logoCol, col, sLogo);
+        col = (true ? logoCol * (1.-sLogo) + col : mix(logoCol, col, sLogo));
       }
     }
     outColor = vec4(col, mouseCol);

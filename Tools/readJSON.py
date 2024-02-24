@@ -2,6 +2,7 @@ import os
 import json
 import math
 import re
+import zlib
 
 rx_al = r"(<[\/A-Za-z]+[^>]*>)"
 rx_op = r"<([A-Za-z]+)[^\/]+>"
@@ -36,19 +37,27 @@ def balance(nodes):
 def logXA(x, a):
     return math.log(a) / math.log(x)
 
-def colBootstrap(img = "", imgLazy = "", productID = 12345):
-    href = '"item_1.html">'
+def colBootstrap(img, imgLazy, productID, productName, productPrice, productImages):
+    href = 'item_1.html'
+    productN = productName
+    productP = str(productPrice)
+    altS = productN + ' ' + productP
+    alt = ' alt="' + productN + ' ' + productP + '">'
     if productID == 12456:
-      href = '"#">'
-    rowText = '<div class="col-sm-4 item-selected"> \
-                    <a href=' + href + ' \
-                        <img data-src="' + img + '" \
-                        src="' + imgLazy + '" \
-                        loading="lazy" \
-                        alt="' + str(productID) + '" class="lazyload img-fluid lazy" \
-                        width="1080" height="1080"> \
-                    </a> \
-                </div>'
+      href = '#'
+      #alt = ' alt="Dummy">'
+    imageString = ''
+    for i in range(0, len(productImages)):
+      image = productImages[i]
+      imageString += image
+      if i < len(productImages)-1:
+        imageString += ","
+    rowText = '<div class="col-sm-4 item-selected" alt="{altString}"> \
+                <a href="{href}" id="{imgString}"> \
+                  <img data-src="{imgOriginal}" src="{imgLazy}" loading="lazy" alt="{productID}" class="lazyload img-fluid lazy" width="1008" height="1008"> \
+                </a> \
+              </div>'.format(altString = altS, imgString = imageString, imgOriginal = img, imgLazy = imgLazy, productID = productID, href = href)
+    #print(alt)
     return rowText
 
 def Run(jsonFileName):
@@ -59,12 +68,12 @@ def Run(jsonFileName):
   # a dictionary
   with open(path, "r") as infile:
       data = json.loads(infile.read())
-  dataPretty = json.dumps(data, indent=4)
+  #dataPretty = json.dumps(data, indent=4)
   #print(dataPretty)
   originalSize = len(data)
-  size = round(logXA(3, len(data)))
-  t = round(originalSize / 3)
-  s = t * size
+  size = round(logXA(3, originalSize))
+  t = math.ceil(originalSize / 3)
+  s = t * 3
   print(str(t))
   print(str(s))
 
@@ -84,36 +93,52 @@ def Run(jsonFileName):
     iterations = s
   if originalSize < 3:
     iterations = 3
+  print(iterations)
   for i in range(0, iterations):
     tempRow = ""
-    iString = str(i)
+    #iString = str(i)
     mod3Counter = i % 3
-    mod3CounterString = str(mod3Counter)
-    title = 'dummy'
+    #mod3CounterString = str(mod3Counter)
+    title = "Dummy"
     imgLazy = dummyImgLazy
     img = dummyImg
     productID = 12456
+    productPrice = 0.0
+    images = ["None", "None"]
     if i < len(data):
       title = data[i]['title']
       imgLazy = data[i]["imgMin"]
       img = data[i]["img"]
       productID = data[i]["productID"]
+      productPrice = data[i]["productPrice"]
+      images = data[i]["images"]
+      # for im in images:
+      #   print(im)
+    #print("Product id: ", productID)
+    #print("Product price: ", productPrice)
     if mod3Counter == 0:
       tempRow = rowStart
-      tempRow += colBootstrap(img, imgLazy, productID)
+      tempRow += colBootstrap(img, imgLazy, productID, title, productPrice, images)
       counterMod += 1
     elif mod3Counter == 2:
-      tempRow += colBootstrap(img, imgLazy, productID)
+      tempRow += colBootstrap(img, imgLazy, productID, title, productPrice, images)
       tempRow += rowEnd
     else:
-      tempRow = colBootstrap(img, imgLazy, productID)
+      tempRow =  colBootstrap(img, imgLazy, productID, title, productPrice, images)
     accumulateHTML += tempRow
-
+  #print(accumulateHTML)
   matches = re.findall(rx_al, accumulateHTML, flags=re.M)
-  print(balance(matches))   
-  print("Counter: ", counterMod)
+  #print(balance(matches))   
+  #print("Counter: ", counterMod)
+  pathHTML = os.getcwd() + '\\' + "Test_1" + ".html"
+  print(pathHTML)
+  file = open(pathHTML, "w")
+  file.write(balance(matches))
 
-jsonFileName = "Aretes.json"
+typeOfProduct = [["Aretes", "Candongas"], ["Earcuffs", ""], ["Anillos", ""], \
+                 ["Collares", ""], ["Pulseras", ""], ["Tobilleras", ""]]
+
+jsonFileName = typeOfProduct[4][0] + ".json"
 Run(jsonFileName)
 
     
